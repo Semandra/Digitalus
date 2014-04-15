@@ -1,0 +1,5 @@
+name = Digital Page Test Module
+description = For testing Islandora customization.
+package = Islandora
+version = "7.x-1.x-dev"
+core = "7.x"

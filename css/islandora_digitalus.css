@@ -1,0 +1,18 @@
+
+root {
+  display: block;
+}
+
+.digitalus_thumb {
+  float: left;
+  padding: 4%;
+}
+.islandora-digitalus-content {
+
+}
+
+#readingWrapper {
+	background-color: #FDFFED;
+	height: 600px;
+	position: relative;
+}
