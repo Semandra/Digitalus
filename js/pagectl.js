@@ -1,7 +1,6 @@
-(function($) { 
 
 jQuery.fn.PageCtl = function(numPages, OnPageChange)
-//jQuery.fn.PageCtl = function(numPages, OnPageChange)
+
 {
     this.pageCtl = new PageCtl(this, numPages, OnPageChange);
     return this.pageCtl;
@@ -17,11 +16,11 @@ function PageCtl(elem, maxPage, onpagechange)
     this.onpagechange = onpagechange;   
     this.curPage = -1;
     
-    $(elem)
+    jQuery(elem)
         .addClass("noSel")
         .css({ width: "135px", height: "26px", zIndex: 20 });
         
-    $("<div></div>")
+    jQuery("<div></div>")
         .addClass("noSel controlsBg")
         .appendTo(elem);
             
@@ -108,7 +107,7 @@ PageCtl.prototype.SetButtonState = function(hover)
 function CreateButton(parent, id, left, top, icon)
 {
 
-    var button = $("<div></div>")
+    var button = jQuery("<div></div>")
         .addClass("noSel controlsBtn")
         .css({
             left: left + "px",
@@ -116,7 +115,7 @@ function CreateButton(parent, id, left, top, icon)
             })
         .appendTo(parent);
 
-    var buttonBack = $("<div></div>")
+    var buttonBack = jQuery("<div></div>")
         .css({
             background: "white",
             borderRadius: 2,
@@ -128,7 +127,7 @@ function CreateButton(parent, id, left, top, icon)
             })
         .appendTo(button);
 
-    var buttonIcon = $("<div></div>", { id: id })
+    var buttonIcon = jQuery("<div></div>", { id: id })
         .css({
             background: "url('zoom_assets/icons.png') no-repeat " + icon + " -17px",
             left: "1px",
@@ -149,7 +148,7 @@ function CreateButton(parent, id, left, top, icon)
 
 function CreateLabel(parent, id, left, top, width, height, text)
 {
-    return $("<div></div>", { id: id })
+    return jQuery("<div></div>", { id: id })
         .addClass("noSel controlsTxt")
         .text(text)
         .css({
@@ -164,7 +163,7 @@ function CreateLabel(parent, id, left, top, width, height, text)
 
 function CreateEdit(parent, id, left, top, width, height)
 {
-    return $("<input></input>", { id:id, type: "text" })
+    return jQuery("<input></input>", { id:id, type: "text" })
         .addClass("controlsTxt")
         .css({
             left: left + "px",
@@ -178,4 +177,3 @@ function CreateEdit(parent, id, left, top, width, height)
         .appendTo(parent);
 }
 
-})(jQuery);

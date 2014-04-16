@@ -16,7 +16,7 @@ function highlightPolygon(on, elem, idList, action)
     }
     else
     {
-        $("#ZoomCtl").zoomCtl("hide");        
+        jQuery("#ZoomCtl").zoomCtl("hide");        
     }
  
 }
@@ -32,18 +32,17 @@ function updatePolygonTransform(zoomData, animationComplete)
 
 }
 
-(function($) { 
 
 var lastZoomCode = undefined;
 function zoomToPolyOnPage(zoomIn, newPage, idList)
 {
 
-    var zoomData = $('#yourImageID').smoothZoom('getZoomData');
+    var zoomData = jQuery('#yourImageID').smoothZoom('getZoomData');
 
     if (!zoomIn)
     {
     
-        $("#yourImageID")
+        jQuery("#yourImageID")
             .smoothZoom('focusTo',{
                    x: zoomData.centerX,
                    y: zoomData.centerY,
@@ -101,8 +100,8 @@ function zoomToPolyOnPage(zoomIn, newPage, idList)
     function ScaleY(y) { return (y / 1000) * zoomData.normHeight; }
 
     // how big is the picture
-    var pictureCtlWidth = $('#yourImageID').width();
-    var pictureCtlHeight = $('#yourImageID').height();
+    var pictureCtlWidth = jQuery('#yourImageID').width();
+    var pictureCtlHeight = jQuery('#yourImageID').height();
 
     var zoomX = Math.floor(pictureCtlWidth*100 / ScaleX(zoomWidth));
     var zoomY = Math.floor(pictureCtlHeight*100 / ScaleY(zoomHeight));
@@ -115,7 +114,7 @@ function zoomToPolyOnPage(zoomIn, newPage, idList)
     x = ScaleX((zoomLeft + zoomRight) / 2);
     y = ScaleY((zoomTop + zoomBottom) / 2);
 
-    $("#yourImageID")
+    jQuery("#yourImageID")
         .smoothZoom('focusTo',{
                x: x,
                y: y,
@@ -147,18 +146,18 @@ function showPolyForPage(on, newPage, idList, action)
             continue;
             
         // show the polygon
-        $("#" + id).animate({opacity: on ? 1 : 0}, "fast");
+        jQuery("#" + id).animate({opacity: on ? 1 : 0}, "fast");
      
         if (action == "removed")
-            $("#" + id).css({fillOpacity:1.0, fill:"url(#StripedPattern)"});
+            jQuery("#" + id).css({fillOpacity:1.0, fill:"url(#StripedPattern)"});
             
         else if (action == "inserted")
-            $("#" + id)
+            jQuery("#" + id)
                 .css("fill", "none")
                 .children("path").attr("stroke", "none");
             
         else if (action == "changed")
-            $("#" + id).css("fill", "none");
+            jQuery("#" + id).css("fill", "none");
             
         // TODO: should have an else with an assert
                 
@@ -168,7 +167,7 @@ function showPolyForPage(on, newPage, idList, action)
 
 function resetPolygonHighlight()
 {
-    $("#ZoomCtlAnchor")
+    jQuery("#ZoomCtlAnchor")
         .appendTo(document.body)
         .hide();
 }
@@ -209,7 +208,7 @@ function configureZoomCtl(elem, idList, action)
 
     if (!foundPrev && !foundCurr && !foundNext)
     {
-        $("#ZoomCtlAnchor")
+        jQuery("#ZoomCtlAnchor")
             .appendTo(document.body)
             .hide();
         return;
@@ -241,7 +240,7 @@ function configureZoomCtl(elem, idList, action)
 
     if (elem)
     {
-        $("#ZoomCtlAnchor")
+        jQuery("#ZoomCtlAnchor")
             .appendTo(elem)
             .show()
             .position(
@@ -252,7 +251,7 @@ function configureZoomCtl(elem, idList, action)
                 });
     }
      
-    $("#ZoomCtl")
+    jQuery("#ZoomCtl")
         .zoomCtl(
             {
                 onPrev: fnPrev,
@@ -262,5 +261,3 @@ function configureZoomCtl(elem, idList, action)
             });
 
 }
-
-})(jQuery);

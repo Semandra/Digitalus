@@ -1,7 +1,7 @@
-(function($) { 
+
 
 //$.fn.Slider = function(sliderData)
-$.fn.Slider = function(sliderData)
+jQuery.fn.Slider = function(sliderData)
 //jQuery.fn.Slider = function(sliderData)
 {
     this.slider = new Slider(this.get(0), sliderData);
@@ -329,7 +329,7 @@ function Slider(parentElem, items)
     }
     
 }
-})(jQuery);
+
 
 function OnKeyDown(event)
 {

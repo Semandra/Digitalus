@@ -134,7 +134,7 @@ function OnMouseOut(e)
 {
     e.stopPropagation();
 
-    var elem = $(this).closest("[data-polygons]");
+    var elem = jQuery(this).closest("[data-polygons]");
     var polygons = elem.attr("data-polygons");
 
     highlightPolygon(false, this, polygons, "changed");
@@ -205,7 +205,7 @@ function hoverHighlight(on, elem)
     
 }
 
-function OnPageChange(prevPage, newPage, zoomData, imagePagePath) // SEMANDRA - Added imagePagePath
+function OnPageChange(prevPage, newPage, zoomData) 
 {
 
     jQuery("#yourImageID").smoothZoom("destroy").css("background-image", "url(zoom_assets/preloader.gif)").smoothZoom({
@@ -216,11 +216,9 @@ function OnPageChange(prevPage, newPage, zoomData, imagePagePath) // SEMANDRA - 
         on_ZOOM_PAN_UPDATE: updatePolygonTransform,
         on_INIT_DONE: zoomData,
         // image_url: "images/image" + newPage + ".jpg"
-	//	image_url: imagePagePath + newPage //SEMANDRA - uses imagePagePath set by module and added in inline JS
-		image_url: "/Digital-Page/islandora/object/digitalpage%3A130/datastream/image" + newPage //SEMANDRA 
+		image_url: imagePagePath + "image" + newPage //SEMANDRA - uses global set by object inline (islandora-digitalus.tpl.php)
 		
     });
-    console.log ("imagePagePath: " + imagePagePath); //SEMANDRA
 	
     jQuery("#svg_page_" + prevPage).children().css({"opacity": 0});
     

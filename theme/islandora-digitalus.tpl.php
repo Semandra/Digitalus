@@ -8,13 +8,13 @@
  * function.  Elements such as labels and buttons can be added here
  */
 $islandora_content = $islandora_object['DIGITALUS']->content;
-$islandora_image = $islandora_object['image1']->content;
+//$islandora_image = $islandora_object['image2']->content;
 $path = drupal_get_path('module', 'islandora_digitalus');  //gets path for css and js in module
 
 
 // SHOW_LAYER inline style
 $css = '<style type="text/css">
-		html, body {
+/*		html, body {
 			height: 100%;
 			width: 100%;
 			margin: 0;
@@ -22,7 +22,22 @@ $css = '<style type="text/css">
 		}
 		body {
 			font-family: calibri
+		}*/
+
+		/*// Semandra - added because body tag is too global*/
+		.islandora-digitalus-object {  
+			font-family: calibri;
+
 		}
+		/*// Semandra - Added to readjust text back to full size (adjusted in global body tag)*/
+		#cellContent {			
+			font-size: 130%;	 	
+		}
+		
+		.islandora-digitalus-object input {
+			
+		}
+		
 		.showLayer {
 			display: none
 		}
@@ -31,7 +46,7 @@ $css = '<style type="text/css">
 			font-weight: bold
 		}
 		.bracketNormal {
-			color: #DD0000
+			color: #DD0000;
 		}
 		.bracketCorrection {
 			color: #DD0000
@@ -306,10 +321,11 @@ drupal_add_css("$path/css/imagectl.css");
 drupal_add_css("$path/css/pagectl.css");
 drupal_add_css("$path/css/slider.css");
 drupal_add_css("$path/css/join.css");
-drupal_add_css("$path/css/dp_custom.css");
+//drupal_add_css("$path/css/dp_custom.css");
 drupal_add_css("$path/css/islandora_digitalus.css");
 
 //drupal_add_js("$path/js/jquery-1.9.1.js");
+
 drupal_add_js("$path/js/jquery-ui-1.10.3.custom.js");
 drupal_add_js("$path/js/jquery.smoothZoom.js");
 
@@ -4488,46 +4504,45 @@ drupal_add_js(
     );
 	$js_add = 
 	drupal_add_js(
-      '  //jQuery(document).ready(function($) {
-			(function($) { 
-			$(document).ready(function() {	
-			
-						var imagePagePath = "'.$variables["islandora_object_page_image"].'"	 //SEMANDRA 
-               
-//  			      var sliderData = [ 
-//                          {label:"A", color:"#FFBFBF", description:"typescript"},
-//                          {label:"B", color:"#FFBF7F", description:"felt pen"},
-//                          {label:"C", color:"#FFFF7F", description:"blue ink"},
-//                          {label:"D", color:"#7FFF7F", description:"pencil"},
-//                          {label:"E", color:"#BFBFFF", description:"ink"},
-//                          {label:"F", color:"#CF8FFF", description:"a later addition in pencil"}
-//                          ];
-//
-//                      $("#slider").Slider(sliderData);                    
+      '  
+			jQuery(document).ready(function() {	
+		
+			   window.imagePagePath =  "'.$variables["islandora_object_page_image"].'"	 //SEMANDRA - set a global path variable	   
+			   
+  			      var sliderData = [ 
+                          {label:"A", color:"#FFBFBF", description:"typescript"},
+                          {label:"B", color:"#FFBF7F", description:"felt pen"},
+                          {label:"C", color:"#FFFF7F", description:"blue ink"},
+                          {label:"D", color:"#7FFF7F", description:"pencil"},
+                          {label:"E", color:"#BFBFFF", description:"ink"},
+                          {label:"F", color:"#CF8FFF", description:"a later addition in pencil"}
+                          ];
+
+                      jQuery("#slider").Slider(sliderData);                    
                       
-                      document.pageCtl = $("#MyPageCtl").PageCtl(5, OnPageChange);                    
-                      $("#PageCtlAnchor").hide();
+                      document.pageCtl = jQuery("#MyPageCtl").PageCtl(5, OnPageChange);                    
+                      jQuery("#PageCtlAnchor").hide();
                       
-                      document.zoomCtl = $("#ZoomCtl").zoomCtl();
-                      $("#ZoomCtlAnchor").hide();
+                     document.zoomCtl = jQuery("#ZoomCtl").zoomCtl();
+                      jQuery("#ZoomCtlAnchor").hide();
                       
                       changeRenderMode.call(document.getElementById("changesMode"));
                   
-                      $(document.body)
+                     jQuery(document.body)
                           .css("height", "100%")
                           .css("width", "100%")
                           .keydown(OnKeyDown);
                           
-                      $("[data-polygons]")
-                          .hover(OnMouseOver, OnMouseOut);
+                      jQuery("[data-polygons]")
+                         .hover(OnMouseOver, OnMouseOut);
       
-                      $(".sicText")
+                      jQuery(".sicText")
                           .tooltip({
                               track: true,
                               content:
                                   function ()
                                   {
-                                      var recte = $(this).attr("title").trim();
+                                      var recte = jQuery(this).attr("title").trim();
                                       if (recte == "")
                                           return "<span class=\"recteText\">~</span>";
                                       else
@@ -4535,15 +4550,14 @@ drupal_add_js(
                                   }
                           });
                           
-                      $(window).resize(positionSubstJoinHighlightDivs);
+                      jQuery(window).resize(positionSubstJoinHighlightDivs);
 
-                      $("#changesMode, #finalMode, #readingMode").click(changeRenderMode);
+                      jQuery("#changesMode, #finalMode, #readingMode").click(changeRenderMode);
                   
                       initSubstJoinHighlight();
       
                       
-                  }); 
-				  })(jQuery);',
+                  }); ',
       array(
         'group' => JS_THEME,
         'type' => 'inline',
