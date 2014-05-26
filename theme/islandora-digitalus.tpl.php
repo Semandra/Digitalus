@@ -338,7 +338,7 @@ drupal_add_js("$path/js/zoomctl.js");
 drupal_add_js("$path/js/join.js");
 
 
-drupal_add_js(
+/*drupal_add_js(
       '  var layers = [
       
           "A1"
@@ -4564,19 +4564,38 @@ drupal_add_js(
         'preprocess' => FALSE,
         'weight' => '99999',
       )
+    );*/
+
+drupal_add_js(
+      '  
+			 window.imagePagePath =  "'.$variables["islandora_object_page_image"].'";	 //SEMANDRA - set a global path variable	
+       ',
+      array(
+        'group' => JS_THEME,
+        'type' => 'inline',
+        'preprocess' => FALSE,
+        'weight' => '99999',
+      )
     );
+
 ?>
-
-
+ 
+ 
 <div class="islandora-digitalus-object islandora">
+<div id="metadataWrapper">
+    <?php if (!empty($dc_array['dc:description']['value'])): ?>
+      <p><?php print $dc_array['dc:description']['label']; ?> : 
+      <?php print $dc_array['dc:description']['value']; ?></p>
+    <?php endif; ?>
+</div>
 
-<?php //print_r($islandora_object); ?>
+<?php //print_r($dc_array); ?>
 <?php //print({$islandora_object->id}); ?>
 <?php //print($islandora_object['DIGITALUS']->uri); ?>
 
-<div class ="digitalus_thumb">
+<!--<div class ="digitalus_thumb">
     <?php print $variables['islandora_object_page_image'] ?>
-  </div>
+  </div>-->
   <div class="islandora-basic-image-content-wrapper clearfix">
     <?php if (isset($islandora_content)): ?>
       <div class="islandora-digitalus-content">

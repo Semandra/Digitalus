@@ -110,7 +110,7 @@
           </element>
         </children>
       </element>
-<!--      <element name="name">
+      <element name="name">
         <properties>
           <type>tabs</type>
           <access>TRUE</access>
@@ -677,7 +677,7 @@
             <children/>
           </element>
         </children>
-      </element>-->
+      </element>
       <element name="note">
         <properties>
           <type>textarea</type>
@@ -707,7 +707,7 @@
         </properties>
         <children/>
       </element>
-<!--      <element name="subject">
+      <element name="subject">
         <properties>
           <type>fieldset</type>
           <access>TRUE</access>
@@ -1170,7 +1170,7 @@
             </children>
           </element>
         </children>
-      </element>-->
+      </element>
     </children>
   </form>
 </definition>

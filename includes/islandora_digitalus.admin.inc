@@ -17,7 +17,7 @@ function islandora_digitalus_admin() {
     '#type' => 'textfield',
     '#title' => t('Word Length'),
     '#default_value' => variable_get('islandora_digitalus_wordlength', '1'),
-    '#description' => t('Minimum length of word to be transformed'),
+    '#description' => t('This does not currently do anything.'),
     '#size' => 4,
   );
 

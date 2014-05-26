@@ -55,6 +55,14 @@ function islandora_digitalus_create_all_derivatives(FedoraObject $object) {
   $ds->setContentFromString($html_block);
   $object->ingestDatastream($ds);
   
+  // Add an page image to datastream.
+  $html_block = $object['OBJ']->content;
+  $ds = $object->constructDatastream('IMAGE1', "M");
+  $ds->label = 'Uploaded image';
+  $ds->mimetype = 'image/jpg';
+  $ds->setContentFromString($html_block);
+  $object->ingestDatastream($ds);
+  
   file_unmanaged_delete($file_uri);
   return TRUE;
 }

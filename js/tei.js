@@ -208,7 +208,7 @@ function hoverHighlight(on, elem)
 function OnPageChange(prevPage, newPage, zoomData) 
 {
 
-    jQuery("#yourImageID").smoothZoom("destroy").css("background-image", "url(zoom_assets/preloader.gif)").smoothZoom({
+    jQuery("#yourImageID").smoothZoom("destroy").css("background-image", "url(sites/all/modules/islandora_digitalus-7.x-1.0/css/zoom_assets/preloader.gif)").smoothZoom({
         width: "100%",
         height: "100%",
         responsive: true,

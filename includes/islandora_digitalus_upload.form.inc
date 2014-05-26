@@ -2,11 +2,11 @@
 
 /**
  * @file
- * Handles the uploading of the PDF file as part of the ingest process.
+ * Handles the uploading of the HTML file as part of the ingest process.
  */
 
 /**
- * Defines a file upload form for uploading the text file.
+ * Defines a file upload form for uploading the prepared HTML file.
  *
  * @param array $form
  *   The drupal form.
@@ -18,10 +18,12 @@
  */
 function islandora_digitalus_upload_form(array $form, array &$form_state) {
   $upload_size = min((int) ini_get('post_max_size'), (int) ini_get('upload_max_filesize'));
-  $extensions = array('txt xml htm html');
+  $extensions = array('htm html');
+  $imageExtenstions = array('jpg png');
+  
   $form = array();
   $form['file'] = array(
-    '#title' => t('Plain Text or XML File'),
+    '#title' => t('HTML File'),
     '#type' => 'managed_file',
     '#required' => TRUE,
     '#description' => t('Select file to upload.<br/>Files must be less than <b>@size MB.</b><br/>Allowed file types: <b>@ext.</b>', array('@size' => $upload_size, '@ext' => $extensions[0])),
@@ -31,7 +33,28 @@ function islandora_digitalus_upload_form(array $form, array &$form_state) {
       'file_validate_extensions' => $extensions,
       'file_validate_size' => array($upload_size * 1024 * 1024),
     ),
+	
+
   );
+ 
+ // Attempting to add a form entry for a page image 
+ 
+ 
+/*  	$form['pages'] = array(
+    '#title' => t('Page Image File'),
+    '#type' => 'managed_file',
+    '#required' => FALSE,
+    '#description' => t('Select images of pages to upload.<br/>Files must be less than <b>@size MB.</b><br/>Allowed file types: <b>@ext.</b>', array('@size' => $upload_size, '@ext' => $extensions[0])),
+    '#default_value' => isset($form_state['values']['files']) ? $form_state['values']['files'] : NULL,
+    '#upload_location' => 'temporary://',
+    '#upload_validators' => array(
+      'file_validate_extensions' => $extensions,
+      'file_validate_size' => array($upload_size * 1024 * 1024),
+    ),
+	
+
+  ); */ 
+  
 
   return $form;
 }
