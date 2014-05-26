@@ -321,6 +321,8 @@ drupal_add_css("$path/css/imagectl.css");
 drupal_add_css("$path/css/pagectl.css");
 drupal_add_css("$path/css/slider.css");
 drupal_add_css("$path/css/join.css");
+drupal_add_css("$path/css/win_nav_styles.css");
+
 //drupal_add_css("$path/css/dp_custom.css");
 drupal_add_css("$path/css/islandora_digitalus.css");
 
@@ -338,7 +340,7 @@ drupal_add_js("$path/js/zoomctl.js");
 drupal_add_js("$path/js/join.js");
 
 
-/*drupal_add_js(
+drupal_add_js(
       '  var layers = [
       
           "A1"
@@ -4503,11 +4505,11 @@ drupal_add_js("$path/js/join.js");
       )
     );
 	$js_add = 
-	drupal_add_js(
+drupal_add_js(
       '  
 			jQuery(document).ready(function() {	
 		
-			   window.imagePagePath =  "'.$variables["islandora_object_page_image"].'"	 //SEMANDRA - set a global path variable	   
+		   /*window.imagePagePath =  "'.$variables["islandora_object_page_image"].'"	 //SEMANDRA - set a global path variable	   
 			   
   			      var sliderData = [ 
                           {label:"A", color:"#FFBFBF", description:"typescript"},
@@ -4554,8 +4556,322 @@ drupal_add_js("$path/js/join.js");
 
                       jQuery("#changesMode, #finalMode, #readingMode").click(changeRenderMode);
                   
-                      initSubstJoinHighlight();
-      
+                      initSubstJoinHighlight();*/
+					  
+				//-----------------------------------------------------------------------------------------------------
+				// ===================  Document Views Navigation Functions ===========================================
+				//-----------------------------------------------------------------------------------------------------
+					//set initial values for TESTING	
+					
+					 var viewWindow1 ={
+							"display": false,
+							"mode": "", //options: reading, analysis, comparison
+							"ver": "", //options: v1, v2, v3, etc.
+							"content": "" //options: page, both
+						};
+						
+					var viewWindow2  = {
+							"display": false,
+							"mode": "", //options: reading, analysis, comparison
+							"ver": "", //options: v1, v2, v3, etc.
+							"content": "" //options: page, both
+						};
+						
+					createMainLayout(viewWindow1, viewWindow2); //call layout for initial setup	
+					
+					// ----------- function to mark the button to the current version (reading or analysis) --------------
+					function updateVersionTable (sel1_ver, sel1_mode) {
+						var selectedButton = "table_" + sel1_mode + "_" + sel1_ver;
+						
+						jQuery("table#versionTable td").css("opacity", "1.0"); // reset table
+						// mark the selected button
+						jQuery("td#" + selectedButton).css("opacity", "0.5");
+					};
+					
+					// ----------- Function to work buttons -------------
+					jQuery("div.tableButton").click(function(){
+						
+						viewWindow1 = {
+							"display": true,
+							"mode": jQuery(this).attr("mode"), //options: reading, analysis, comparison
+							"ver": jQuery(this).attr("version"), //options: v1, v2, v3, etc.
+							"content": jQuery(this).attr("content") //options: page, both
+						};
+						
+						if (viewWindow1.mode=="reading" | viewWindow1.mode=="analysis") {   //Close the second window if open
+							viewWindow2={"display":false}; 
+							};
+							
+				
+						updateVersionTable (viewWindow1.ver, viewWindow1.mode); //update the table so that the selected button is marked
+						
+						createMainLayout (viewWindow1, viewWindow2); //update the display layout
+						
+					});	
+      					jQuery("div#poem_text_and_tools").on("click",".toolButton", function(){
+						
+					//	console.log ("toolbutton clicked");
+						// Button action = close => close the selected window and go to analysis mode of the other
+						if (jQuery(this).attr("action") == "close") {		
+							if (jQuery(this).attr("window") == "1"){viewWindow1 = viewWindow2};
+							viewWindow2={"display":false};
+							viewWindow1.mode="analysis";
+						};
+						// Button action = analysis => switch to analysis mode
+						if (jQuery(this).attr("action") == "analysis") {		
+							viewWindow1={"display":true, "mode":"analysis", "ver":jQuery(this).attr("version"), "content":"text"};
+						};
+						
+						// Button action = reading => switch to reading mode
+						if (jQuery(this).attr("action") == "reading") {	
+							viewWindow1={"display":true, "mode":"reading", "ver":jQuery(this).attr("version"), "content":"text"};
+							viewWindow2={"display":false}; 			
+						};
+						
+						// Button action = toggle => switch to opposite or view both screens
+						if (jQuery(this).attr("action") == "toggle" && jQuery(this).attr("mode") == "comparison") {
+				
+							// set the display of the selected window to be the opposite of what it is (i.e. page if it is text, text if it is page)
+							//console.log("change this window: " + jQuery(this).attr("window"));
+							
+							if (jQuery(this).attr("window") == "1" && jQuery(this).attr("content") == "text") {
+								viewWindow1={"display":true, "mode":"comparison", "ver":jQuery(this).attr("version"), "content":"text"};
+							};
+							if (jQuery(this).attr("window") == "1" && jQuery(this).attr("content") == "page") {
+								viewWindow1={"display":true, "mode":"comparison", "ver":jQuery(this).attr("version"), "content":"page"};
+							};
+							
+							if (jQuery(this).attr("window") == "2" && jQuery(this).attr("content") == "text") {
+								viewWindow2={"display":true, "mode":"comparison", "ver":jQuery(this).attr("version"), "content":"text"};
+							};
+							if (jQuery(this).attr("window") == "2" && jQuery(this).attr("content") == "page") {
+								viewWindow2={"display":true, "mode":"comparison", "ver":jQuery(this).attr("version"), "content":"page"};
+							};
+							
+						}
+						else if(jQuery(this).attr("action") == "toggle"){
+							if 	(jQuery(this).attr("content") == "text"){
+								viewWindow1={"display":true, "mode":jQuery(this).attr("mode"), "ver":jQuery(this).attr("version"), "content":"text"};
+							}
+							else if (jQuery(this).attr("content") == "page") {
+								viewWindow1={"display":true, "mode":"analysis", "ver":jQuery(this).attr("version"), "content":"page"};				
+							}
+							else {
+								
+								//if it is already in "both" mode then this should toggle back to text version
+								
+								viewWindow1={"display":true, "mode":"analysis", "ver":jQuery(this).attr("version"), "content":"both"};
+								console.log("Toggle the panes");				
+							};
+						};
+						// Button action = comparison => popup list of versions to compare to the current version
+						
+						if (jQuery(this).attr("action") == "comparison") {
+							
+							// show comparison in other window
+							if (jQuery(this).attr("window") == "1") {
+								viewWindow2={"display":true, "mode":"comparison", "ver":jQuery(this).attr("Selectedver"), "content":"text"};
+								viewWindow1={"display":true, "mode":"comparison", "ver":jQuery(this).attr("version"), "content":"text"};
+							}
+							
+							if (jQuery(this).attr("window") == "2") {
+								viewWindow1={"display":true, "mode":"comparison", "ver":jQuery(this).attr("Selectedver"), "content":"text"};
+								viewWindow2={"display":true, "mode":"comparison", "ver":jQuery(this).attr("version"), "content":"text"};
+							}		
+						};
+						
+						updateVersionTable (viewWindow1.ver, viewWindow1.mode); //update the table so that the selected button is marked
+						//console.log("content (just before exit): " + viewWindow1.content);
+						createMainLayout (viewWindow1, viewWindow2);
+						
+						return;
+					});	
+				
+					
+					// =================    function to create the layout of content display   =============================================
+					function createMainLayout(viewWindow1, viewWindow2) {
+						jQuery("div#displayWindow1").empty(); //Empty out the containers
+						jQuery("div#displayWindow2").empty();
+						
+						//If second window is true then we are in comparison mode
+						if (viewWindow2.display == true) {
+						
+							jQuery("div#displayWindow1").append("<div class=\'\'>" + contentToDisplay(viewWindow1, 1) + "</div>").removeClass("readingWindow_reading readingWindow_analysis readingWindow_comparison").addClass("readingWindow_comparison");
+							
+							jQuery("div#displayWindow2").append("<div class=\'\'>" + contentToDisplay(viewWindow2, 2) + "</div>").removeClass("readingWindow_reading readingWindow_analysis readingWindow_comparison").addClass("readingWindow_comparison");
+							jQuery("div#displayWindow2").css("display", "inherit");	
+							
+							jQuery(".v_tool_nav_sub").css("width", "100%"); // widen the tools so that they appear one above each other
+						
+						}
+						else {
+							jQuery("div#displayWindow1").append("<div class=\'\'>" + contentToDisplay(viewWindow1, 1) + "</div>").removeClass("readingWindow_reading readingWindow_analysis readingWindow_comparison").addClass("readingWindow_" + viewWindow1.mode);
+								
+							jQuery("div#displayWindow2").css("display", "none");	
+							
+							// This reformats the text and page windows so they go side-by-side when in that mode
+							if (viewWindow1.content == "both") {
+								jQuery(".v_page_wrapper").css("float","left");
+								jQuery(".v_text_wrapper").css("float","left");
+							};
+							// If this is the full reading version then add class, otherwise remove it
+							if (viewWindow1.mode == "reading") {
+								jQuery("span[class^=\'markup\']").addClass("removeMarkup");
+							}else{
+								jQuery("span[class^=\'markup\']").removeClass("removeMarkup");
+							};
+						}
+						
+						// Create the comparison box when mouse enters the Comparison button 
+						jQuery("div.comparisonButton").mouseenter(function(){
+							var currentWindow =  jQuery(this).attr("window");
+							
+							var currentVersion = jQuery(this).attr("version");
+							var allTheVersions = "";
+							 jQuery("div[id^=\'poem_v\'] h2").each(function(){
+									selVersionNum = jQuery(this).parent().parent().attr(\'id\');
+									selVersionNum = selVersionNum.replace("poem_v", "");
+									allTheVersions = allTheVersions + "<li><div class=\'button toolButton versionCompButton\' action=\'comparison\' content=\'text\' window=\'" + currentWindow  + "\' version=\'" + currentVersion + "\' selectedver=\'v"+selVersionNum +"\'>" + jQuery(this).html() + "</li>";
+								});
+							if (currentWindow == "1") {jQuery("div#versionLinkList1").html("<h3>Compare to...</h3><ul>" + allTheVersions + "</ul>")};
+							if (currentWindow == "2") {jQuery("div#versionLinkList2").html("<h3>Compare to...</h3><ul>" + allTheVersions + "</ul>")};
+						});
+						// Clean away the pop-up box if the mouse leaves
+						jQuery("div#versionLinkList1").mouseleave(function(){
+							jQuery("div#versionLinkList1").html("");
+						});
+						jQuery("div#versionLinkList2").mouseleave(function(){
+							jQuery("div#versionLinkList2").html("");
+						});
+					};
+					// ================ Function to create overall display of verson elements: metadata, tools, and content ============================
+					function contentToDisplay(displayView, windowNum) { 
+							
+							//hide slider if in full reading mode
+							var siderDisplay
+							if (displayView.mode == "reading") {
+								sliderDisplay = "";
+							}
+							else {
+								sliderDisplay = jQuery("div#" + displayView.ver + "_cellSlider").html();
+							};
+							
+							var allData = ["<div class=\'v_metadata_wrapper\'>",
+								jQuery("div#" + displayView.ver + "_metadata").html(),
+								"</div>",
+								"<div class=\'v_tools_wrapper\'>",
+								   "<div class=\'v_tool_nav_sub\'>",
+										navToolDisplay(displayView, windowNum),
+									"</div>",
+									"<div class=\'v_tool_slider_sub\'>",
+										sliderDisplay,
+									"</div>",
+								   "<br class=\'clearfix\' />",
+								"</div>",
+										
+								"<div class=\'v_content_wrapper\'>",
+									mainContentDisplay(displayView),
+								"</div>"			
+								].join(\'\n\');
+							return allData;
+						};
+						
+					// ---------- Function to create view navigation tools -------------------
+					function navToolDisplay(displayView, windowNum) { 
+							//console.log(displayView);
+							// ---- Buttons to show in comparison mode only
+							if (displayView.mode == "comparison") {
+									
+									if (displayView.content == "page") { toggleValue = "content=\'text\'>Text" } else { toggleValue = "content=\'page\'>Page"};
+									
+									var displayNavTools = ["<div class=\'button toolButton buttonToggle\' window=\'" + windowNum + "\' action=\'toggle\' mode=\'comparison\' version=\'" + displayView.ver + "\' " + toggleValue + "</div>",
+									"<div class=\'button comparisonButton buttonComparison\' window=\'"+windowNum+"\' action=\'comparison\'  mode=\'comparison\' version=\'"+displayView.ver+"\' content=\'text\'>Comparison<div id=\'versionLinkList" + windowNum + "\'></div></div>",
+									"<div class=\'button toolButton buttonReading\' window=\'1\' action=\'reading\' content=\'text\' version=\'"+displayView.ver+"\'>Reading</div>", //uses analysis action to switch to reading
+									"<div class=\'button toolButton buttonClose\' window=\'" + windowNum + "\' action=\'close\'>Close</div><br class=\'clearfix\' />"
+									].join(\'\n\');
+							};
+							
+							// ---- If in reading mode - display button for switching to analysis mode
+							if (displayView.mode == "reading") {
+									var displayNavTools = "<div class=\'button toolButton buttonAnalysis\' window=\'"+windowNum+"\' action=\'analysis\' mode=\'reading\' version=\'"+displayView.ver+"\'>Analysis</div><br class=\'clearfix\' />"
+							};
+							
+							// ---- If in Analysis mode - display buttons for reading, toggling and comparison
+							if (displayView.mode == "analysis") {
+								// find which to toggle to
+								var toggleValue;
+								if (displayView.content == "page") { 
+									toggleValue = "content=\'text\'>Text";
+								} else { 
+									toggleValue = "content=\'page\'>Page";
+								};
+								
+								// Select the button to open up second pane or close it
+								if (displayView.content == "both") { 
+									buttonClass = "buttonBothClose";
+									labelValue = "content=\'text\'>Collapse";
+								} else { 
+									buttonClass = "buttonBothOpen";
+									labelValue = "content=\'both\'>View Both";
+								};
+								
+								
+								var displayNavTools = ["<div class=\'button toolButton buttonReading\' window=\'"+windowNum+"\' action=\'reading\' content=\'text\' mode=\'reading\' version=\'"+displayView.ver+"\'>Reading</div>",
+								"<div class=\'button toolButton buttonToggle\' window=\'"+windowNum+"\'action=\'toggle\'  mode=\'analysis\' version=\'"+displayView.ver+"\' "+toggleValue+"</div>",
+								
+								"<div class=\'button toolButton " + buttonClass + "\' window=\'"+windowNum+"\'action=\'toggle\'  mode=\'analysis\' version=\'"+displayView.ver+"\' " + labelValue + "</div>",
+								
+								"<div class=\'button comparisonButton buttonComparison\' window=\'"+windowNum+"\'action=\'comparison\'  mode=\'comparison\' version=\'"+displayView.ver+"\' content=\'text\'>Comparison<div id=\'versionLinkList" + windowNum + "\'></div></div>",
+								"<br class=\'clearfix\' />"
+								].join(\'\n\');
+							};
+							
+						return displayNavTools;
+					};
+					// ================== Function to create the display of text and page image (or both) ============================
+					function mainContentDisplay(displayView, windowNum) {
+				
+							var contentToInsert_text = "";
+							var contentToInsert_image = "";
+							
+							if (displayView.mode == "reading") {
+								
+								contentToInsert_text = "<div class=\'v_text_wrapper fullWidth\'>" + jQuery("div#" + displayView.ver + "_cellContent").html() + "</div>";
+								contentToInsert_image = "";			
+							};
+							
+							if (displayView.mode == "analysis") {
+								
+								if (displayView.content == "both") {
+									contentToInsert_text = "<div class=\'v_text_wrapper\'>" + jQuery("div#" + displayView.ver + "_cellContent").html() + "</div>";
+									contentToInsert_image = "<div class=\'v_page_wrapper\'>" + jQuery("div#" + displayView.ver + "_cellImage").html() + "</div>";			
+								}
+								else if(displayView.content == "page") {
+									contentToInsert_text = "";
+									contentToInsert_image = "<div class=\'v_page_wrapper fullWidth\'>" + jQuery("div#" + displayView.ver + "_cellImage").html() + "</div>";
+								}
+								else {
+									contentToInsert_text = "<div class=\'v_text_wrapper fullWidth\'>" + jQuery("div#" + displayView.ver + "_cellContent").html() + "</div>";
+									contentToInsert_image = "";
+								};
+							};
+											
+							if (displayView.mode == "comparison") {
+								var contentToInsert;
+								
+								if (displayView.content == "text") {
+									contentToInsert_text= "<div class=\'v_text_wrapper fullWidth\'>" + jQuery("div#" + displayView.ver + "_cellContent").html() + "</div>";
+								}
+								else {
+									contentToInsert_image = "<div class=\'v_page_wrapper fullWidth\'>" + jQuery("div#" + displayView.ver + "_cellImage").html() + "</div>";
+								};
+								
+							};
+							
+						 var bodyData = contentToInsert_text + contentToInsert_image + "<br class=\'clearfix\' />";
+						 return bodyData;
+					};
+
                       
                   }); ',
       array(
@@ -4564,7 +4880,7 @@ drupal_add_js("$path/js/join.js");
         'preprocess' => FALSE,
         'weight' => '99999',
       )
-    );*/
+    );
 
 drupal_add_js(
       '  
@@ -4583,13 +4899,14 @@ drupal_add_js(
  
 <div class="islandora-digitalus-object islandora">
 <div id="metadataWrapper">
+	<h1>Metadata Box</h1>
     <?php if (!empty($dc_array['dc:description']['value'])): ?>
-      <p><?php print $dc_array['dc:description']['label']; ?> : 
+      <p>Show metadata<?php print $dc_array['dc:description']['label']; ?> : 
       <?php print $dc_array['dc:description']['value']; ?></p>
     <?php endif; ?>
 </div>
 
-<?php //print_r($dc_array); ?>
+<?php print_r($dc_array); ?>
 <?php //print({$islandora_object->id}); ?>
 <?php //print($islandora_object['DIGITALUS']->uri); ?>
 

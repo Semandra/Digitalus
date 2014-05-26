@@ -1,0 +1,242 @@
+@charset "UTF-8";
+/* CSS Document */
+
+body {
+	width: 1000px;
+	margin: auto;
+}
+
+.clearfix {
+	clear: both;
+	border-width: medium;
+}
+.hide {
+	display: none;
+}
+
+
+.sliderWrapper {
+/*	width: 300px;
+	background-color: #BBD9F9;*/
+}
+.sliderWrapper img{
+	margin: auto;
+	display: block;
+}
+
+#poem_v1, #poem_v2, #poem_v3 {
+	/*visibility: hidden;*/
+	display: none;
+	border-bottom-width: medium;
+	-webkit-box-shadow: 3px 3px 2px 3px #1D1D1D;
+	box-shadow: 3px 3px 2px 3px #1D1D1D;
+}
+
+/* ----------- Metadata of Poem ----------------- */
+
+#poem_navigation {
+	margin-bottom: 20px;
+}
+
+.poem_meta_wrapper {
+	width: 50%;
+	float: left;
+}
+
+#versionTable {
+	background-color: #E2E8E2;
+}
+
+#displayWindow1 {
+	height: 100%;
+	float: left;
+}
+
+#displayWindow2 {
+	height: 100%;
+	float: left;
+}
+
+/* ----- outline the two comparison windows ------ */
+.displayWindow {
+	float: left;
+	border: 1px solid #DFDFDF;
+	height: 50px;
+	-webkit-box-shadow: 3px 3px 7px #969696;
+	box-shadow: 3px 3px 7px #969696;
+	margin: 0 5px;
+}
+
+#displayWindow2.displayWindow {
+/*	border-color: #069300;*/
+}
+
+.pageImageDisplay {
+	display: none;
+}
+
+/* -------- for testing - background colours -------- */
+.readingWindow_reading {
+/*	background-color: #ccf;*/
+	width: 100%;
+}
+.readingWindow_analysis {
+/*	background-color: #cfc;*/
+	width: 100%;
+}
+.readingWindow_comparison {
+/*	background-color: #fcc;*/
+	width: 48%;
+}
+.markup {
+	background-color: #EFC446;
+}
+.markup2 {
+	background-color: #E4525F;
+}
+.pageStubBlock {
+	background-color: #F8E4AA;
+    height: 200px;
+    padding: 20px;
+    text-align: center;
+    width: 150px;
+	margin:auto;
+}
+
+/* Default layout block formatting */
+
+.v_metadata_wrapper {
+/*	background-color: #CFDCF0;*/
+	margin-bottom: 10px;
+	padding-left: 20px;
+	border-bottom: 1px solid #6A6868;
+}
+
+.v_tools_wrapper {
+/*	background-color: #333;*/
+	margin-bottom: 10px;
+	border-bottom: 1px solid #6A6868;
+}
+
+.v_content_wrapper {
+/*	background-color: #444;*/
+	margin-bottom: 10px;
+}
+
+.v_tool_nav_sub {
+	width: 50%;
+	float:right;
+}
+
+.v_tool_slider_sub {
+	/* [disabled]background-color: #F0CFDE; */
+	width: 50%;
+	float: left;
+}
+
+
+.v_text_wrapper {
+    margin: auto auto auto 5%;
+    width: 45%;
+}
+
+.v_page_wrapper {
+	width: 50%;
+	margin: auto;
+}
+
+
+
+.button {
+	background-color: #eee;
+	border-radius: 10px;
+	padding: 5px;
+	text-align: center;
+	margin: 5px;
+	float: left;
+	border: 1px solid #AAA9A9;
+	cursor: pointer;
+}
+/* Popup box of version links */
+.toolButton, .comparisonButton {
+    background-color: inherit;
+    background-image: url("images/tool_buttons.png");
+     background-position: 50px 13px;
+	width: 40px;
+    background-repeat: no-repeat;
+    border: medium none;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 11px;
+    font-variant: small-caps;
+    height: 65px;
+    
+    padding: 0;
+}
+.versionCompButton {
+	background-color: #eee;
+	border-radius: 10px;
+	padding: 5px;
+	text-align: center;
+	margin: 5px;
+	float: left;
+	border: 1px solid #AAA9A9;
+	height: 20px;
+	width: 100px;
+	background-image: none;
+	font-family: Times, "Times New Roman", serif;
+	font-size:14px;
+	
+}
+
+.buttonAnalysis {
+	background-position: -810px 13px;
+	width: 42px;
+}
+.buttonReading {
+	background-position: -131px 13px;
+	width: 48px;
+}
+.buttonBothOpen {
+	background-position: -406px 13px;
+	width: 73px;
+}
+.buttonBothClose {
+	background-position: -479px 13px;
+	width: 78px;
+}
+
+.buttonToggle {
+	background-position: 0px 13px;
+	width: 42px;
+}
+.buttonComparison {
+	background-position: -643px 13px;
+	width: 79px;
+}
+.buttonClose {
+	background-position: -321px 13px;
+	width: 38px;	
+}
+
+#versionLinkList1, #versionLinkList2 {
+	position: absolute;
+	border: 1px solid grey;
+	background-color: #ddd;
+}
+#versionLinkList1 ul, #versionLinkList2 ul {
+	padding: 0;
+}
+
+#versionLinkList1 ul li, #versionLinkList2 ul li {
+	list-style-type: none;
+	margin: 0;
+	clear: both;	
+}
+
+.removeMarkup {
+	background-color: inherit;
+}
+
+.fullWidth {
+/*	width: 100%;*/
+}
