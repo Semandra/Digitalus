@@ -58,7 +58,8 @@ function islandora_digitalus_preprocess_islandora_digitalus(array &$variables) {
 
   $islandora_object = $variables['islandora_object'];
   
-  // ====== Semandra --- try to load meta-data 
+  
+  // ====== Semandra --- try to load meta-data =====================================================
     if (islandora_datastream_access(FEDORA_VIEW_OBJECTS, $islandora_object['DC'])) {
     try {
       $dc = $islandora_object['DC']->content;
@@ -70,6 +71,78 @@ function islandora_digitalus_preprocess_islandora_digitalus(array &$variables) {
   }
   $variables['islandora_dublin_core'] = isset($dc_object) ? $dc_object : NULL;
   $variables['dc_array'] = isset($dc_object) ? $dc_object->asArray() : array();
+  
+   ///======= Semandra - Load and format MODS metadata   ================================================
+   if (islandora_datastream_access(FEDORA_VIEW_OBJECTS, $islandora_object['MODS'])) {
+    try {
+      $mods = $islandora_object['MODS']->content;
+    }
+    catch (Exception $e) {
+      drupal_set_message(t('Error retrieving object %s %t', array('%s' => $islandora_object->id, '%t' => $e->getMessage())), 'error', FALSE);
+    }
+  }
+	
+  if ($mods) {
+
+  $params = array('title' => 'Titles',
+		  'subTitle' => 'Sub Title',
+		  'name' => 'Name', 
+		  'classification' => 'Classification', 
+		  'subjectTopic' => 'Subject Topic',
+		  'subjectOccupation' => 'Subject Occupation',
+		  'subjectName' => 'Subject Name',
+		  'subjectGeographic' => 'Subject Geographic',
+		  'subjectHierGeographic' => 'Subject Hierarchical Geographic',
+		  'subjectCartographic' => 'Subject Cartographic',
+		  'subjectTemporal' => 'Subject Temporal',
+		  'subjectLocalname' => 'Subject Local Name',
+		  'abstract' => 'Abstract',
+		  'toc' => 'Table of Contents',
+		  'note' => 'Note',
+		  'dateIssued' => 'Date Issued',
+		  'dateCreated' => 'Date Created',
+		  'dateCaptured' => 'Date Captured',
+		  'dateOther' => 'Date Other',
+		  'publisher' => 'Publisher',
+		  'genre' => 'Genre',
+		  'typeOfResource' => 'Type of Resource',
+		  'extent' => 'Extent',
+		  'form' => 'Form',
+		  'mediaType' => 'Media Type',
+		  'mimeType' => 'Mime Type',
+		  'identifier' => 'Identifier',
+		  'physicalLocation' => 'Physical Location',
+		  'shelfLocation' => 'Shelf Location',
+		  'url' => 'URL',
+		  'holdingSubLocation' => 'Holding Sublocation',
+		  'holdingShelfLocator' => 'Holding Shelf Locator',
+		  'electronicLocator' => 'Electronic Locator',
+		  'language' => 'Language',
+		  'relatedItem' => 'Related Item',
+		  'accessCondition' => 'Access Condition');
+  
+  
+        $file = drupal_get_path('module', 'islandora_digitalus') . '/xsl/mods_display.xsl';
+		 
+		
+      $xslt = new XSLTProcessor();
+      $xslt_dom = new DOMDocument();
+      $xslt_dom->load($file);
+      $input = new DOMDocument();
+      $did_load_ok = $input->loadXML($mods);
+      if ($did_load_ok) {
+		  $xslt->importStylesheet($xslt_dom);
+		  foreach($params as $k => $v){
+			  //debug for fun
+			  //drupal_set_message($k);
+			  $xslt->setParameter('',$k,$v);
+		  }
+	
+		  $variables['metadata'] = $xslt->transformToXml($input);
+      };
+  
+  };
+  
   
   ///==============================
   
@@ -188,4 +261,120 @@ function islandora_digitalus_islandora_required_objects(IslandoraTuque $connecti
       ),
     ),
   );
+}
+
+
+
+/*
+==============================================================================================================
+THIS IS CODE I BORROWED FROM MODS DISPLAY MASTER
+I also added "theme.inc" to the theme folder and mods_display.xsl to the XSL folder.
+
+
+==============================================================================================================
+*/
+
+
+/**
+ * @file
+ * Example module to demonstrate Islandora metadata display viewer framework.
+ */
+
+/**
+ * Implements hook_theme().
+ * see the islandora module for these functions
+ */
+function islandora_mods_display_theme() {
+	
+  return array(
+    'islandora_mods_display_display' => array(
+      'file' => 'theme/theme.inc',
+      'template' => 'theme/islandora-mods-display-display-template',
+      // We can add PIDs to the end of this pattern in our preprocess function
+      // and templates will be able to have have a pid appended to the
+      // template name to overide a template on a per object basis.
+      // An example template might be named:
+      // "unicorns-are-awesome-display-template--islandora-27.tpl.php".
+      'pattern' => 'islandora_mods_display_display_template__',
+      'variables' => array(
+        'islandora_object' => NULL,
+        'print' => NULL,
+      ),
+    ),
+    'islandora_mods_display_description' => array(
+      'file' => 'theme/theme.inc',
+      'template' => 'theme/islandora-mods-display-description-template',
+      // We can add PIDs to the end of this pattern in our preprocess function
+      // and templates will be able to have have a pid appended to the
+      // template name to overide a template on a per object basis.
+      // An example template might be named:
+      // "unicorns-are-awesome-description-template--islandora-27.tpl.php".
+      'pattern' => 'islandora_mods_display_description_template__',
+      'variables' => array('islandora_object' => NULL),
+    ),
+  );
+}
+
+/**
+ * Implements hook_islandora_metadata_display_info().
+ * This defines how the view shows up in the metadata display selector
+ * and the callback. an example can be found in islandora/includes/metadata.inc
+ *
+ */
+function islandora_mods_display_islandora_metadata_display_info() {
+  return array(
+    'islandora' => array(
+      'label' => t('Islandora MODS'),
+      'description' => t('Use MODS for metadata'),
+      'metadata callback' => 'islandora_mods_display_display_callback',
+      'description callback' => 'islandora_mods_display_description_callback',
+    ),
+  );
+}
+
+/**
+ * Metadata display callback for rendering metadata from MODS.
+ *
+ * @param AbstractObject $object
+ *   An AbstractObject representing an object within Fedora.
+ * @param bool $print
+ *   Whether this is for printing purposes.
+ *
+ * @return string
+ *   Markup representing the metadata display pulled from MODS.
+ */
+function islandora_mods_display_display_callback(AbstractObject $object, $print = FALSE) {
+  // For example purposes of the object is not a basic image let's theme it
+  // instead.
+  // You can look at the content model here and change the template that is used.
+  // This also determines the preprocessing functions that are used in the 
+  // theme.inc file
+  // in_array('islandora:sp_basic_image', $object->models)
+
+    $elements = array(
+      'islandora_object' => $object,
+      'print' => $print,
+    );
+    return theme('islandora_mods_display_display', $elements);
+
+}
+
+/**
+ * Metadata display callback for rendering metadata from MODS.
+ *
+ * @param AbstractObject $object
+ *   An AbstractObject representing an object within Fedora.
+ *
+ * @return string
+ *   Markup representing the metadata display pulled from MODS.
+ */
+function islandora_mods_display_description_callback(AbstractObject $object) {
+  // For example purposes of the object is not a basic image let's theme it
+  // instead.
+
+    $elements = array(
+      'islandora_object' => $object,
+    );
+    return theme('islandora_mods_display_description', $elements);
+
 }

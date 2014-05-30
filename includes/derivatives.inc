@@ -10,8 +10,7 @@
  *
  * The islandora_digitalus_islandora_digitalusCModel_islandora_object_ingested hook
  * calls this function. This function receives a copy of the uningested
- * islandora object and uses the OBJ datastream to create the derivative pig
- * latin stream.
+ * islandora object and uses the OBJ datastream.
  *
  * Each datastream is constructed, labeled, assigned a mimetype, and given
  * content, either from a string, or read in from a file location.
@@ -68,11 +67,24 @@ function islandora_digitalus_create_all_derivatives(FedoraObject $object) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
 /* Function to return nothing but the original file*/
 // function islandora_digitalus_transform_text($input_text) {  /*This Works to do nothing to text*/
  // return $input_text;
 //}
 
+// NOT IN USE!
+// This function was used to transform the xml version to html, but is not 
+// used now because PHP does not suppor the v2 XSL we need. 
 function islandora_digitalus_transform_xml_to_html($transform_text) {  // passed the value of 'OBJ' - contents of file
   $xsl_path = drupal_get_path('module', 'islandora_digitalus') . '/xsl/tei_mod.xsl'; // Get the XSL for the transformation
   $xsl = new DOMDocument();

@@ -4898,15 +4898,33 @@ drupal_add_js(
  
  
 <div class="islandora-digitalus-object islandora">
-<div id="metadataWrapper">
-	<h1>Metadata Box</h1>
-    <?php if (!empty($dc_array['dc:description']['value'])): ?>
-      <p>Show metadata<?php print $dc_array['dc:description']['label']; ?> : 
-      <?php print $dc_array['dc:description']['value']; ?></p>
+<!--<div id="metadataWrapper">
+    <?php if (!empty($dc_array['dc:title']['value'])): ?>
+      <?php //print $dc_array['dc:title']['label']; ?> 
+      <?php print "<h1>" . $dc_array['dc:title']['value'] . "</h1>"; ?>
+      
     <?php endif; ?>
-</div>
+</div>-->
 
-<?php print_r($dc_array); ?>
+<?php //print_r($dc_array); ?>
+<p>
+<?php 
+	//$object = $variables['islandora_object'];
+	// $mods = $islandora_object['MODS']->content;
+	//print_r($mods); 
+	//print_r($object);
+	//print_r($object['MODS']->title);
+	//print_r($object->models);
+	//print_r($dc_array);
+	//print_r($islandora_object);
+	print $metadata;
+	//drupal_set_message(t('This works!'), 'status');
+	?>
+    
+</p>
+<?php 
+//	print_r($mods); 
+	?>
 <?php //print({$islandora_object->id}); ?>
 <?php //print($islandora_object['DIGITALUS']->uri); ?>
 
