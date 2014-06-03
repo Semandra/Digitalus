@@ -331,16 +331,16 @@ drupal_add_css("$path/css/islandora_digitalus.css");
 drupal_add_js("$path/js/jquery-ui-1.10.3.custom.js");
 drupal_add_js("$path/js/jquery.smoothZoom.js");
 
-drupal_add_js("$path/js/tei.js");
+/*drupal_add_js("$path/js/tei.js");
 drupal_add_js("$path/js/stylesheet.js");
 drupal_add_js("$path/js/polygons.js");
 drupal_add_js("$path/js/pagectl.js");
 drupal_add_js("$path/js/slider.js");
 drupal_add_js("$path/js/zoomctl.js");
-drupal_add_js("$path/js/join.js");
+drupal_add_js("$path/js/join.js");*/
 
 
-drupal_add_js(
+/*drupal_add_js(
       '  var layers = [
       
           "A1"
@@ -4503,7 +4503,7 @@ drupal_add_js(
         'type' => 'inline',
         'preprocess' => FALSE,
       )
-    );
+    );*/
 	$js_add = 
 drupal_add_js(
       '  
@@ -4590,7 +4590,6 @@ drupal_add_js(
 					
 					// ----------- Function to work buttons -------------
 					jQuery("div.tableButton").click(function(){
-						
 						viewWindow1 = {
 							"display": true,
 							"mode": jQuery(this).attr("mode"), //options: reading, analysis, comparison
@@ -4923,7 +4922,7 @@ drupal_add_js(
     
 </p>
 <?php 
-//	print_r($mods); 
+	//print_r($mods); 
 	?>
 <?php //print({$islandora_object->id}); ?>
 <?php //print($islandora_object['DIGITALUS']->uri); ?>

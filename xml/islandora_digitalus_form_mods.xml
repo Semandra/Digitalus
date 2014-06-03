@@ -84,7 +84,7 @@
               <type>textfield</type>
               <access>TRUE</access>
               <required>FALSE</required>
-              <title>Sub Title</title>
+              <title>First Line of Poem</title>
               <tree>TRUE</tree>
               <actions>
                 <create>
@@ -108,9 +108,223 @@
             </properties>
             <children/>
           </element>
+		  	  
         </children>
       </element>
-      <element name="name">
+	  
+
+	 	<!--  ======= SEMANDRA - Added for version number ======= -->	
+ 
+      <element name="poem">
+        <properties>
+          <type>tabs</type>
+          <access>TRUE</access>
+          <required>FALSE</required>
+          <title>Poem Versions</title>
+          <tree>TRUE</tree>
+        </properties>
+        <children>
+          <element name="0">
+            <properties>
+              <type>tabpanel</type>
+              <access>TRUE</access>
+              <required>FALSE</required>
+              <tree>TRUE</tree>
+              <actions>
+                <create>
+                  <path>self::node()</path>
+                  <context>parent</context>
+                  <schema/>
+                  <type>element</type>
+                  <prefix>NULL</prefix>
+                  <value>poem</value>
+                </create>
+                <read>
+                  <path>mods:poem</path>
+                  <context>parent</context>
+                </read>
+                <update>NULL</update>
+                <delete>
+                  <path>self::node()</path>
+                  <context>self</context>
+                </delete>
+              </actions>
+            </properties>
+				<children>
+<!--					  <element name="poem">
+					  	<properties>
+					 	<access>TRUE</access>
+						<required>FALSE</required>
+						 <tree>TRUE</tree>
+					  <actions>
+						<create>
+						  <path>self::node()</path>
+						  <context>parent</context>
+						  <schema/>
+						  <type>element</type>
+						  <prefix>NULL</prefix>
+						  <value>poems</value>
+						</create>
+						<read>
+						  <path>mods:poems</path>
+						  <context>parent</context>
+						</read>
+						<update>NULL</update>
+						<delete>
+						  <path>self::node()</path>
+						  <context>self</context>
+						</delete>
+					  </actions>
+					</properties>					
+							<children>-->
+							  <element name="versionNum">
+								<properties>
+								  <type>textfield</type>
+								  <access>TRUE</access>
+								  <required>FALSE</required>
+								  <title>Version Number</title>
+								  <tree>TRUE</tree>
+								  <actions>
+									<create>
+									  <path>self::node()</path>
+									  <context>parent</context>
+									  <schema/>
+									  <type>xml</type>
+									  <prefix>NULL</prefix>
+									 <value>&lt;versionNum&gt;%value%&lt;/versionNum&gt;</value>
+
+									</create>
+									<read>
+									  <path>mods:versionNum</path>
+									  <context>parent</context>
+									</read>
+									<update>
+									  <path>self::node()</path>
+									  <context>self</context>
+									</update>
+									<delete>
+									  <path>self::node()</path>
+									  <context>self</context>
+									</delete>
+								  </actions>
+								</properties>
+								<children/>
+							  </element>
+							  <element name="pubDate">
+								<properties>
+								  <type>textfield</type>
+								  <access>TRUE</access>
+								  <description>Use format: YYYY/MM/DD</description>
+								  <required>FALSE</required>
+								  <title>Date Published</title>
+								  <tree>TRUE</tree>
+								  <actions>
+									<create>
+									  <path>self::node()</path>
+									  <context>parent</context>
+									  <schema/>
+									  <type>xml</type>
+									  <prefix>NULL</prefix>
+									  <value>&lt;pubDate&gt;%value%&lt;/pubDate&gt;</value>
+									</create>
+									<read>
+									  <path>mods:pubDate</path>
+									  <context>parent</context>
+									</read>
+									<update>
+									  <path>self::node()</path>
+									  <context>self</context>
+									</update>
+									<delete>
+									  <path>self::node()</path>
+									  <context>self</context>
+									</delete>
+								  </actions>
+								</properties>
+								<children/>
+							  </element>
+							   <element name="pubName">
+								<properties>
+								  <type>textfield</type>
+								  <access>TRUE</access>
+								  <description></description>
+								  <required>FALSE</required>
+								  <title>Publication Name</title>
+								  <tree>TRUE</tree>
+								  <actions>
+									<create>
+									  <path>self::node()</path>
+									  <context>parent</context>
+									  <schema/>
+									  <type>xml</type>
+									  <prefix>NULL</prefix>
+									  <value>&lt;pubName&gt;%value%&lt;/pubName&gt;</value>
+									</create>
+									<read>
+									  <path>mods:pubName</path>
+									  <context>parent</context>
+									</read>
+									<update>
+									  <path>self::node()</path>
+									  <context>self</context>
+									</update>
+									<delete>
+									  <path>self::node()</path>
+									  <context>self</context>
+									</delete>
+								  </actions>
+								</properties>
+								<children/>
+							  </element>
+							  <element name="pubPageNum">
+								<properties>
+								  <type>textfield</type>
+								  <access>TRUE</access>
+								  <description></description>
+								  <required>FALSE</required>
+								  <title>Number of Pages</title>
+								  <tree>TRUE</tree>
+								  <actions>
+									<create>
+									  <path>self::node()</path>
+									  <context>parent</context>
+									  <schema/>
+									  <type>xml</type>
+									  <prefix>NULL</prefix>
+									  <value>&lt;pubPageNum&gt;%value%&lt;/pubPageNum&gt;</value>
+									</create>
+									<read>
+									  <path>mods:pubPageNum</path>
+									  <context>parent</context>
+									</read>
+									<update>
+									  <path>self::node()</path>
+									  <context>self</context>
+									</update>
+									<delete>
+									  <path>self::node()</path>
+									  <context>self</context>
+									</delete>
+								  </actions>
+								</properties>
+								<children/>
+							  </element>
+							</children>
+			<!--		</element>
+				</children>-->
+				
+          </element>
+        </children>
+      </element>
+	 
+	<!-- =============================================== -->   
+	  
+	  
+	  
+	  
+	  
+	  
+      <!--<element name="name">
         <properties>
           <type>tabs</type>
           <access>TRUE</access>
@@ -252,8 +466,8 @@
             </children>
           </element>
         </children>
-      </element>
-      <element name="typeOfResource">
+      </element>-->
+<!--      <element name="typeOfResource">
         <properties>
           <type>select</type>
           <access>TRUE</access>
@@ -328,7 +542,16 @@
         </properties>
         <children/>
       </element>
-      <element name="originInfo">
+	  
+-->
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+      <!--<element name="originInfo">
         <properties>
           <type>fieldset</type>
           <access>TRUE</access>
@@ -473,8 +696,8 @@
             <children/>
           </element>
         </children>
-      </element>
-      <element name="language">
+      </element>-->
+     <!-- <element name="language">
         <properties>
           <type>textfield</type>
           <access>TRUE</access>
@@ -1170,7 +1393,7 @@
             </children>
           </element>
         </children>
-      </element>
+      </element>-->
     </children>
   </form>
 </definition>

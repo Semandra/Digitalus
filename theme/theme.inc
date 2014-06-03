@@ -26,6 +26,7 @@ function islandora_mods_display_preprocess_islandora_mods_display_display(array 
 
   $params = array('title' => 'Titles',
 		  'name' => 'Name', 
+		  'poem' => 'Poem',
 		  'classification' => 'Classification', 
 		  'subjectTopic' => 'Subject Topic',
 		  'subjectOccupation' => 'Subject Occupation',

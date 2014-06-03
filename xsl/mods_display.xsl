@@ -43,6 +43,7 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
 	<xsl:strip-space elements="*"/>
 	<xsl:template match="/">
 	  <xsl:param name="title" />
+      <xsl:param name="poem" />
 	  <xsl:param name="name" />
 	  <xsl:param name="classification" />
 	  <xsl:param name="subjectTopic" />
@@ -77,6 +78,7 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
 	  <xsl:param name="language" />
 	  <xsl:param name="relatedItem" />
 	  <xsl:param name="accessCondition" />
+      <xsl:param name="versionNum" />
 
 		<xsl:choose>
 		<xsl:when test="//mods:modsCollection">			
@@ -92,28 +94,135 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
 		<xsl:otherwise>
 			<xsl:for-each select="mods:mods">
 <!--			<oai_dc:dc xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd"> -->
-<table id="metadataMain">
+<!--<table id="metadataMain">
 <tr><th colspan="2"><h3 class="islandora-obj-details-metadata-title">Metadata <span class="islandora-obj-details-dsid">(MODS)</span></h3></th></tr>
 				<xsl:apply-templates/>
 </table>
+-->
+
+            <div id="poem_navigation">
+            	 <div id="" class="poem_meta_wrapper">
+                   
+                   <xsl:apply-templates select="mods:titleInfo" />
+                    
+                </div>
+               <div id=""  class="poem_meta_wrapper">
+            		<table id="versionTable">
+               		 <xsl:apply-templates select="mods:poem"/>
+                    </table>
+                <br class='clearfix' />
+            	</div>
+			</div>
+
 <!--			</oai_dc:dc> -->
 			</xsl:for-each>
 		</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
+    
+    
+ <!-- =============================================================================================   -->   
+   
+   	<xsl:template match="mods:titleInfo">
+		<div id="" class="poem_meta_wrapper">
+        
+			<h1><xsl:value-of select="mods:title"/></h1>
+           <h3><xsl:value-of select="mods:subTitle"/></h3>
+            
+		</div>
+	</xsl:template> 
+    
+    <xsl:template match="mods:poem">
+                <tr>
+                    <td>
+                         <xsl:text>Version: </xsl:text><xsl:value-of select="mods:versionNum"/>
+                    </td>
+                    <td>
+                        <xsl:text>Date: </xsl:text><xsl:value-of select="mods:pubDate"/>
+                    </td>
+                    <td>
+                        <xsl:text>Pub Name: </xsl:text><xsl:value-of select="mods:pubName"/>
+                    </td>
+                    <td>
+                        <xsl:text>Pages: </xsl:text><xsl:value-of select="mods:pubPageNum"/>
+                    </td>
+                    <td>
+                            <xsl:attribute name="id">table_reading_v<xsl:value-of select="mods:versionNum"/></xsl:attribute>
+                         <div>
+                             <xsl:attribute name="class">button tableButton</xsl:attribute>
+                             <xsl:attribute name="version">v<xsl:value-of select="mods:versionNum"/></xsl:attribute>
+                             <xsl:attribute name="mode">reading</xsl:attribute>
+                             <xsl:text>Show Reading</xsl:text>
+                         </div>
+                    </td>
+                    <td>  
+                            <xsl:attribute name="id">table_analysis_v<xsl:value-of select="mods:versionNum"/></xsl:attribute>
+                          <div>
+                              <xsl:attribute name="class">button tableButton</xsl:attribute>
+                             <xsl:attribute name="version">v<xsl:value-of select="mods:versionNum"/></xsl:attribute>
+                             <xsl:attribute name="mode">analysis</xsl:attribute>
+                             <xsl:text>Show Analysis</xsl:text>
+                            </div>
+                    </td>
+                    
+                    
+                </tr>
+                
+    </xsl:template>   
+    
+   <!-- <xsl:template match="mods:poem">
+                    <tr>
+                          <td>
+                            <xsl:attribute name="id">table_reading_v<xsl:value-of select="mods:versionNum"/></xsl:attribute>
+                            <xsl:text>Poem Version: </xsl:text><xsl:value-of select="mods:versionNum"/>
+                         </td>
+                         <td>
+                            <ul>
+                            		<li><xsl:text>Pub Date: </xsl:text><xsl:value-of select="mods:pubDate"/></li>
+                                    <li><xsl:text>Pub Name: </xsl:text><xsl:value-of select="mods:pubName"/></li>
+                                    <li><xsl:text>Pages: </xsl:text><xsl:value-of select="mods:pubPageNum"/></li>
+                            </ul>
+                            <div>
+                            		<xsl:attribute name="class">button tablebutton</xsl:attribute>
+                                 <xsl:attribute name="version">v<xsl:value-of select="mods:versionNum"/></xsl:attribute>
+                                 <xsl:attribute name="mode">reading</xsl:attribute>
+                                 <xsl:text>Show Reading</xsl:text>
+                            </div>
+                         </td>
+                        </tr>
+     </xsl:template>-->
+    
+    
+    
+    
+    
+    
+    
+    
+  <!-- =============================================================================================   -->   
+    
+    
+    
+<!--	
 	<xsl:template match="mods:titleInfo">
-		<!-- <dc:title> -->
+		
 		<tr><td id='metadata-title'><xsl:value-of select="$title"/></td><td>
 			<xsl:value-of select="mods:nonSort"/>
 			<xsl:if test="mods:nonSort">
 				<xsl:text> </xsl:text>
 			</xsl:if>
 			<xsl:value-of select="mods:title"/>
+            
 			<xsl:if test="mods:subTitle">
 				<xsl:text>: </xsl:text>
 				<xsl:value-of select="mods:subTitle"/>
 			</xsl:if>
+           <xsl:if test="mods:versionNum">
+				<xsl:text></xsl:text>
+				<xsl:value-of select="mods:versionNum"/>
+			</xsl:if>            
+            
+            
 			<xsl:if test="mods:partNumber">
 				<xsl:text>. </xsl:text>
 				<xsl:value-of select="mods:partNumber"/>
@@ -122,10 +231,44 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
 				<xsl:text>. </xsl:text>
 				<xsl:value-of select="mods:partName"/>
 			</xsl:if>
+            
+
+            
 			</td></tr>
- 	<!-- </dc:title> -->
+ 	
 	</xsl:template>
-	
+	-->
+    
+    <!--  ====================== SEMANDRA ======================================= -->
+    
+   <!-- 
+    <xsl:template match="mods:poem">
+                    <tr>
+                          <td>
+                            <xsl:attribute name="id">table_reading_v<xsl:value-of select="mods:versionNum"/></xsl:attribute>
+                            <xsl:text>Poem Version: </xsl:text><xsl:value-of select="mods:versionNum"/>
+                         </td>
+                         <td>
+                            <ul>
+                            		<li><xsl:text>Pub Date: </xsl:text><xsl:value-of select="mods:pubDate"/></li>
+                                    <li><xsl:text>Pub Name: </xsl:text><xsl:value-of select="mods:pubName"/></li>
+                                    <li><xsl:text>Pages: </xsl:text><xsl:value-of select="mods:pubPageNum"/></li>
+                            </ul>
+                            <div>
+                            		<xsl:attribute name="class">button tablebutton</xsl:attribute>
+                                 <xsl:attribute name="version">v<xsl:value-of select="mods:versionNum"/></xsl:attribute>
+                                 <xsl:attribute name="mode">reading</xsl:attribute>
+                                 <xsl:text>Show Reading</xsl:text>
+                            </div>
+                         </td>
+                        </tr>
+     </xsl:template>
+-->
+  
+  <!--  ========================================================================== -->
+
+
+
 
 	<xsl:template match="mods:name">
 		<tr>
@@ -167,7 +310,10 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
 		  <xsl:if test="position()!=last()">--</xsl:if>
 	      </td></tr>  
 	    </xsl:for-each>
-	  </xsl:if>			
+	  </xsl:if>		
+      
+
+    	
 
 	  <xsl:if test="normalize-space(mods:occupation)">
 	    <xsl:for-each select="mods:occupation">

@@ -37,10 +37,11 @@ function islandora_digitalus_upload_form(array $form, array &$form_state) {
 
   );
  
- // Attempting to add a form entry for a page image 
+ //======= SEMANDRA ================= Attempting to add a form entry for a page image 
  
+// $entryName = "page1";
  
-/*  	$form['pages'] = array(
+  	$form['pages'] = array(
     '#title' => t('Page Image File'),
     '#type' => 'managed_file',
     '#required' => FALSE,
@@ -53,7 +54,7 @@ function islandora_digitalus_upload_form(array $form, array &$form_state) {
     ),
 	
 
-  ); */ 
+  );  
   
 
   return $form;
