@@ -1,9 +1,6 @@
-islandora_porcus
+Islandora Digitalus
 ================
 
-Pig Latin Module
+Digital Page Reader Module (Drupal)
 
-This module is designed to be deliberately trivial and useless.
-It exists only as demo to illustrate how Islandora ingests and displays
-digital assets.
-
+This module is designed work with the Drupal Islandora Modules to present archived material (documents) with the Digital Page Reader tool.
