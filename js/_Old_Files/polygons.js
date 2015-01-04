@@ -1,3 +1,5 @@
+
+
 function highlightPolygon(on, elem, idList, action)
 {
 
@@ -22,9 +24,6 @@ function highlightPolygon(on, elem, idList, action)
 function updatePolygonTransform(zoomData, animationComplete)
 {
 
-	console.log("Function updatePolygonTransform in polygons.js");
-	// This function activates when the page is loaded and when the window reizes
-
     var svg = jQuery("#svg_pages").get(0);
 
     svg.setAttribute("transform", 
@@ -32,6 +31,7 @@ function updatePolygonTransform(zoomData, animationComplete)
         "scale(" + (zoomData.scaledWidth/1000.0) + ", " + (zoomData.scaledHeight/1000.0) + ")");
 
 }
+
 
 var lastZoomCode = undefined;
 function zoomToPolyOnPage(zoomIn, newPage, idList)
@@ -124,25 +124,6 @@ function zoomToPolyOnPage(zoomIn, newPage, idList)
 
 }
 
-
-// TODO: stupid helpers function to work around lack of SVG class support in jquery
-function removeClass(s, c)
-{
-    if (s == undefined)
-        s = "";
-    return s.split(" ").filter(function(e) { return e != c; }).join(" ");
-}
-
-function addClass(s, c)
-{
-    if (s == undefined)
-        s = "";
-    var arr = s.split(" ");
-    if (arr.indexOf(c) != -1)
-        return s;
-    return arr.concat([c]).join(" ");
-}
-
 function showPolyForPage(on, newPage, idList, action)
 {
 
@@ -163,14 +144,33 @@ function showPolyForPage(on, newPage, idList, action)
         // skip polygons not on this page
         if (page != newPage)
             continue;
-        
-        var $path = jQuery("#" + id + " > .polygonContent");
-
-        $path.attr("class", (on ? addClass : removeClass)($path.attr("class"), action));
-                        
+            
+        // show the polygon
+        jQuery("#" + id).animate({opacity: on ? 1 : 0}, "fast");
+     
+        if (action == "removed")
+            jQuery("#" + id).css({fillOpacity:1.0, fill:"url(#StripedPattern)"});
+            
+        else if (action == "inserted")
+            jQuery("#" + id)
+                .css("fill", "none")
+                .children("path").attr("stroke", "none");
+            
+        else if (action == "changed")
+            jQuery("#" + id).css("fill", "none");
+            
+        // TODO: should have an else with an assert
+                
     }
     
 } // showPolyForPage
+
+function resetPolygonHighlight()
+{
+    jQuery("#ZoomCtlAnchor")
+        .appendTo(document.body)
+        .hide();
+}
 
 function configureZoomCtl(elem, idList, action)
 {
@@ -260,21 +260,4 @@ function configureZoomCtl(elem, idList, action)
                 onNext: fnNext
             });
 
-}
-
-function showPolyPage(page, on)
-{
-    
-    var $page = jQuery("#svg_page_" + page);
-    $page.attr("class", (on ? addClass : removeClass)($page.attr("class"), "polygonPageShow"));
-
-    if (!on)
-        $page.find(".polygonPath").attr("class", "polygonPath");
-
-}
-
-function showAllPolyOnPage(page, on)
-{
-    var $page = jQuery("#svg_page_" + page);
-    $page.attr("class", (on ? addClass : removeClass)($page.attr("class"), "polygonPageShowHint"));
 }

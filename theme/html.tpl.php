@@ -4636,34 +4636,31 @@ drupal_add_js(
  	 //print $variables['$islandora_object_path']
 ?>
 
-
-
+<?php // Render metadata table from XSLT transform
+	print $metadata;
+?>
     
  <div class="islandora-basic-image-content-wrapper clearfix">
     <?php if (isset($islandora_content)): ?>
-        <div class="islandora-digitalus-content" >
-        
-          <!--div for black background behind main display-->
-          <div id="overLay1" class="toolOverlay"></div>
-          
-          <!--div for display of text tool and images of pages-->
-          <div id="overLay2" class="toolOverlay">
-              <div id="toggleBtn2"  class="toggleButton">Close Digital Page Reader</div>
-              <?php print $islandora_content; ?>
-          </div>
-          <script>
-        	  var imagePagePath = "<?php  print_r($variables["islandora_object_path"])?>";
-          </script>
-        
-        </div><!-- end content (digitalus template) -->
+      <div class="islandora-digitalus-content">
+      
+      <!-- =========== Render containers for display windows ============== -->
+<!--      <div id="poem_text_and_tools">
+    		<div id="displayWindow1" class="displayWindow">
+    
+    		</div>
+    		<div id="displayWindow2" class="displayWindow">
+    
+    		</div>
+		</div>-->
+      
+        <?php print $islandora_content; ?>
+
+        <script>
+		var imagePagePath = "<?php  print_r($variables["islandora_object_path"])?>";
+		
+		</script>
+     
+      </div><!-- end content (digitalus template) -->
     <?php endif; ?>
   </div> <!-- end wrapper (digitalus template) -->
-  
-  
-
- 
-  <?php // Render metadata table from XSLT transform - see "mods_display.xsl"
-	print $metadata;
-?>
-
-</div> <!-- end-digitalus-object (digitalus template) -->

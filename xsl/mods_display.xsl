@@ -96,11 +96,15 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
 <!--			<oai_dc:dc xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd"> -->
 
 
-          <div id="poem_navigation">
-            	 <div id="test" class="poem_meta_wrapper">
+          <div id="object_title_control">
+            	 <div id="test" class="title_meta_wrapper">
                    
                    <h1><xsl:apply-templates select="mods:titleInfo" /></h1>
-                    <p id="abstract-tes"><xsl:apply-templates select="mods:abstract" /></p>
+                    <p id="abstract-test"><xsl:apply-templates select="mods:abstract" /></p>
+                    
+                    <!-- "Open Display" button toggles the text tool overlay window-->
+ 						<div id="toggleBtn1" class="toggleButton">Open Digital Page Reader</div>  
+                        
   <!--              </div>
                <div id=""  class="poem_meta_wrapper">
             		<table id="versionTable">
@@ -111,7 +115,7 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
 			</div>  
 
 <table id="metadataMain">
-<tr><th colspan="2"><h3 class="islandora-obj-details-metadata-title">Metadata <span class="islandora-obj-details-dsid">(MODS)</span></h3></th></tr>
+<!--<tr><th colspan="2"><h3 class="islandora-obj-details-metadata-title">Metadata <span class="islandora-obj-details-dsid">(MODS)</span></h3></th></tr>-->
 				<xsl:apply-templates/>
 </table>
 
@@ -137,7 +141,7 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
     
    <xsl:template match="mods:abstract">
 		<div id="" class="">
-           <div><xsl:value-of select="mods:abstract"/></div>
+           <div><xsl:value-of select="mods:abstract" /></div>
             
 		</div>
 	</xsl:template> 
@@ -145,24 +149,20 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
     
     <xsl:template match="mods:poem">
                 <tr>
-                    <td>
-                         <xsl:text>Version: </xsl:text><xsl:value-of select="mods:versionNum"/>
-                    </td>
+                    <td><xsl:text>Version: </xsl:text></td>
+                    <td><xsl:value-of select="mods:versionNum"/></td>
                 </tr>
                 <tr>
-                    <td>
-                        <xsl:text>Date: </xsl:text><xsl:value-of select="mods:pubDate"/>
-                    </td>
+                    <td><xsl:text>Date: </xsl:text></td>
+                    <td><xsl:value-of select="mods:pubDate"/></td>
                 </tr>
                 <tr>
-                    <td>
-                        <xsl:text>Pub Name: </xsl:text><xsl:value-of select="mods:pubName"/>
-                    </td>
+                    <td><xsl:text>Pub Name: </xsl:text></td>
+                    <td><xsl:value-of select="mods:pubName"/></td>
                 </tr>
                 <tr>
-                    <td>
-                        <xsl:text>Pages: </xsl:text><xsl:value-of select="mods:pubPageNum"/>
-                    </td>
+                    <td><xsl:text>Pages: </xsl:text></td>
+                    <td><xsl:value-of select="mods:pubPageNum"/></td>
                 </tr>
 <!--                    <td>
                             <xsl:attribute name="id">table_reading_v<xsl:value-of select="mods:versionNum"/></xsl:attribute>
@@ -223,17 +223,17 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
 	
 	<xsl:template match="mods:titleInfo">
 		
-		<tr><td id='metadata-title'><xsl:value-of select="$title"/></td><td>
+		<tr><td id='metadata-title'><!--xsl:value-of select="$title"/--><!--removes the label from table--></td><td>
 			<xsl:value-of select="mods:nonSort"/>
 			<xsl:if test="mods:nonSort">
 				<xsl:text> </xsl:text>
 			</xsl:if>
 			<xsl:value-of select="mods:title"/>
             
-			<xsl:if test="mods:subTitle">
+<!--			<xsl:if test="mods:subTitle">
 				<xsl:text>: </xsl:text>
 				<xsl:value-of select="mods:subTitle"/>
-			</xsl:if>
+			</xsl:if>-->
            <xsl:if test="mods:versionNum">
 				<xsl:text></xsl:text>
 				<xsl:value-of select="mods:versionNum"/>
@@ -397,8 +397,8 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
 	<xsl:template match="mods:abstract">
 	  <!-- <xsl:if test="mods:abstract =''"> -->
 	  <xsl:if test="normalize-space()">
-		  <tr><td><xsl:value-of select="$abstract"/></td><td>			
-			<xsl:value-of select="."/>
+		  <tr><td><!--xsl:value-of select="$abstract"/--></td><td>			
+			<xsl:value-of select="." disable-output-escaping="yes"/>
 		  </td></tr>
 	  </xsl:if>
 	</xsl:template>

@@ -129,7 +129,8 @@ function CreateButton(parent, id, left, top, icon)
 
     var buttonIcon = jQuery("<div></div>", { id: id }) // Semandra - changed path to file 
         .css({
-            background: "url('../../sites/all/modules/islandora_digitalus-7.x-1.0/css/zoom_assets/icons.png') no-repeat " + icon + " -17px",
+            //background: "url('../../sites/all/modules/islandora_digitalus-7.x-1.0/css/zoom_assets/icons.png') no-repeat " + icon + " -17px",
+			background: "url('../../sites/digitalpage.ca/modules/islandora_digitalus-7.x-1.0/css/zoom_assets/icons.png') no-repeat " + icon + " -17px",
             left: "1px",
             top: "1px",
             width: "16px",
