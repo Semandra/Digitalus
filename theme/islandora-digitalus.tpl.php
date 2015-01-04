@@ -7,313 +7,28 @@
  * the islandora_digitalus_preprocess_islandora_digitalus
  * function.  Elements such as labels and buttons can be added here
  */
+ 
 $islandora_content = $islandora_object['DIGITALUS']->content;
+$islandora_doc_styles = $islandora_object['STYLES']->content; //Customizable styles for document tool
+
 //$islandora_image = $islandora_object['image2']->content;
 $path = drupal_get_path('module', 'islandora_digitalus');  //gets path for css and js in module
 
 
-// SHOW_LAYER inline style
-$css = '<style type="text/css">
-/*		html, body {
-			height: 100%;
-			width: 100%;
-			margin: 0;
-			padding: 0
-		}
-		body {
-			font-family: calibri
-		}*/
-
-		/*// Semandra - added because body tag is too global*/
-		.islandora-digitalus-object {  
-			font-family: calibri;
-
-		}
-		/*// Semandra - Added to readjust text back to full size (adjusted in global body tag)*/
-		#cellContent {			
-			font-size: 130%;	 	
-		}
-		
-		.islandora-digitalus-object input {
-			
-		}
-		
-		.showLayer {
-			display: none
-		}
-		.bracketNormal, .bracketCorrection {
-			display: none;
-			font-weight: bold
-		}
-		.bracketNormal {
-			color: #DD0000;
-		}
-		.bracketCorrection {
-			color: #DD0000
-		} /* TODO: put back to #3333FF if we ever go back to brackets */
-		input[type=button] {
-			border: none
-		}
-		.sicText {
-			cursor: default
-		}
-		.recteText {
-			color: #DD0000
-		}
-	</style>
-    <style type="text/css" id="ShowLayer">
-		.showLayerA1 {
-		}
-		.showLayerA2 {
-		}
-		.showLayerA3 {
-		}
-		.showLayerB1 {
-		}
-		.showLayerB2 {
-		}
-		.showLayerC1 {
-		}
-		.showLayerC2 {
-		}
-		.showLayerD1 {
-		}
-		.showLayerD2 {
-		}
-		.showLayerE1 {
-		}
-		.showLayerE2 {
-		}
-		.showLayerE3 {
-		}
-		.showLayerF1 {
-		}
-	</style>
-    <style type="text/css" id="SessionColor">
-		.sessionAColor {
-			background-color: #FFBFBF
-		}
-		.sessionBColor {
-			background-color: #FFBF7F
-		}
-		.sessionCColor {
-			background-color: #FFFF7F
-		}
-		.sessionDColor {
-			background-color: #7FFF7F
-		}
-		.sessionEColor {
-			background-color: #BFBFFF
-		}
-		.sessionFColor {
-			background-color: #CF8FFF
-		}
-	</style>
-                <style type="text/css" id="MultiLayer">
-		.layerContainer {
-			display: block;
-			margin-left: 35px;
-			spacing: 0;
-			text-indent: -35px;
-			padding: 0
-		}
-		.layerLabel {
-			display: inline-block;
-			margin: 0px;
-			text-indent: 0px;
-			width: 31px;
-			text-align: center;
-			color: black
-		}
-		.layerSpacer {
-			display: inline;
-			margin: 0px;
-			text-indent: 0px;
-			width: 5px;
-			text-align: center;
-			background-color: white
-		}
-		.layerContents {
-			display: inline;
-			margin: 0px;
-			text-indent: 0px
-		}
-</style>
-                <style type="text/css" id="SingleLayer">
-		.layerContainer {
-			display: inline
-		}
-		.layerLabel {
-			display: none
-		}
-		.layerSpacer {
-			display: none
-		}
-		.layerContents {
-			display: inline
-		}
-		#substJoinBar {
-			display: none
-		}
-</style>
-                <style type="text/css" id="AllChangesMode">
-		.emphBold {
-			font-weight: bold
-		}
-		.emphItalic {
-			font-style: italic
-		}
-		.emphUnderline {
-			text-decoration: underline
-		}
-		.emphSingleQuote:before {
-			content: "‘"
-		}
-		.emphSingleQuote:after {
-			content: "’"
-		}
-		.emphDoubleQuote:before {
-			content: "“"
-		}
-		.emphDoubleQuote:after {
-			content: "”"
-		}
-		.emphSmallCaps {
-			font-variant: small-caps
-		}
-		.allChangesModeOn {
-			display: inline
-		}
-		.allChangesModeOff {
-			display: none
-		}
-		.finalModeOn {
-			display: none
-		}
-		.finalModeOff {
-			display: inline
-		}
-		.readingModeOn {
-			display: none
-		}
-		.readingModeOff {
-			display: inline
-		}
-		.pb {
-			width: 300px;
-			color: #3333FF;
-			border-top: solid 1px #3333FF;
-			margin-top: 2ex
-		}
-</style>
-                <style type="text/css" id="FinalMode">
-		.emphBold {
-			font-weight: bold
-		}
-		.emphItalic {
-			font-style: italic
-		}
-		.emphUnderline {
-			text-decoration: underline
-		}
-		.emphSingleQuote:before {
-			content: "‘"
-		}
-		.emphSingleQuote:after {
-			content: "’"
-		}
-		.emphDoubleQuote:before {
-			content: "“"
-		}
-		.emphDoubleQuote:after {
-			content: "”"
-		}
-		.emphSmallCaps {
-			font-variant: small-caps
-		}
-		.allChangesModeOn {
-			display: none
-		}
-		.allChangesModeOff {
-			display: inline
-		}
-		.finalModeOn {
-			display: inline
-		}
-		.finalModeOff {
-			display: none
-		}
-		.readingModeOn {
-			display: none
-		}
-		.readingModeOff {
-			display: inline
-		}
-		.pb {
-			width: 200px;
-			color: #3333FF;
-			border-top: solid 1px #3333FF;
-		}
-</style>
-                <style type="text/css" id="ReadingMode">
-		.emphNone, .emphBold, .emphItalic, .emphUnderline, .emphSingleQuote, .emphDoubleQuote, .emphSmallCaps {
-			font-style: italic
-		}
-		.allChangesModeOn {
-			display: none
-		}
-		.allChangesModeOff {
-			display: inline
-		}
-		.finalModeOn {
-			display: none
-		}
-		.finalModeOff {
-			display: inline
-		}
-		.readingModeOn {
-			display: inline
-		}
-		.readingModeOff {
-			display: none
-		}
-</style>
-                <style type="text/css" id="LineBreak">
-		div.lineBreak {
-			display: inline
-		}
-</style>
-                <style type="text/css" id="Highlights"></style>
-                
-                <style type="text/css" id="JoinHighlightSessions">
-	.joinMarkerSession_A {
-	}
-	.joinMarkerSession_B {
-	}
-	.joinMarkerSession_C {
-	}
-	.joinMarkerSession_D {
-	}
-	.joinMarkerSession_E {
-	}
-	.joinMarkerSession_F {
-	}
-	</style>
-                <style type="text/css" id="JoinHighlights"></style>
-               
-               
-               
-                <style>
-.ui-widget {
-	font-family: calibri;
-	font-size: 1em;
-}
-</style>';
-$element = array(
-  '#type' => 'markup',
-  '#markup' => $css,
-);
-drupal_add_html_head($element, 'show_layer');
+// SHOW_LAYER inline styles are added to the Head of HTML before all other styles - WORKING!
+	$css = '<style id="my_empty"></style>';
+	if (isset($islandora_doc_styles)) {
+		$css = $islandora_doc_styles;
+		//	drupal_set_message(t('The custom CSS styles have been loaded.'), 'status');
+	} else {
+		drupal_set_message(t('The custom CSS styles for this document have not been loaded. The document tool will not function.'), 'warning');
+	};
+	
+	$element = array(
+	  '#type' => 'markup',
+	  '#markup' => $css,
+	);
+	drupal_add_html_head($element, 'show_layer');
 
 
 drupal_add_css("$path/css/smoothness/jquery-ui-1.10.3.custom.css");
@@ -321,25 +36,28 @@ drupal_add_css("$path/css/imagectl.css");
 drupal_add_css("$path/css/pagectl.css");
 drupal_add_css("$path/css/slider.css");
 drupal_add_css("$path/css/join.css");
-drupal_add_css("$path/css/win_nav_styles.css");
 
-//drupal_add_css("$path/css/dp_custom.css");
+drupal_add_css("$path/css/win_nav_styles.css"); //May not need this anymore since navigation tool is depreciated
+
+//drupal_add_css("$path/css/dp_custom.css"); //This was an earlier attempt to add the document custom styles - NOT NEEDED NOW!
 drupal_add_css("$path/css/islandora_digitalus.css");
 
 //drupal_add_js("$path/js/jquery-1.9.1.js");
 
 drupal_add_js("$path/js/jquery-ui-1.10.3.custom.js");
-drupal_add_js("$path/js/jquery.smoothZoom.js");
 
-/*drupal_add_js("$path/js/tei.js");
+
+drupal_add_js("$path/js/tei.js");
 drupal_add_js("$path/js/stylesheet.js");
 drupal_add_js("$path/js/polygons.js");
+drupal_add_js("$path/js/jquery.smoothZoom.min.js");
 drupal_add_js("$path/js/pagectl.js");
 drupal_add_js("$path/js/slider.js");
 drupal_add_js("$path/js/zoomctl.js");
-drupal_add_js("$path/js/join.js");*/
+drupal_add_js("$path/js/join.js");
 
 
+// NOTICE: This jNO LONGER NEEDS TO BE HERE
 /*drupal_add_js(
       '  var layers = [
       
@@ -4504,12 +4222,12 @@ drupal_add_js("$path/js/join.js");*/
         'preprocess' => FALSE,
       )
     );*/
-	$js_add = 
-drupal_add_js(
+//	$js_add = 
+/*drupal_add_js(
       '  
 			jQuery(document).ready(function() {	
 		
-		   /*window.imagePagePath =  "'.$variables["islandora_object_page_image"].'"	 //SEMANDRA - set a global path variable	   
+		   window.imagePagePath =  "'.$variables["islandora_object_page_image"].'"	 //SEMANDRA - set a global path variable	   
 			   
   			      var sliderData = [ 
                           {label:"A", color:"#FFBFBF", description:"typescript"},
@@ -4556,7 +4274,7 @@ drupal_add_js(
 
                       jQuery("#changesMode, #finalMode, #readingMode").click(changeRenderMode);
                   
-                      initSubstJoinHighlight();*/
+                      initSubstJoinHighlight();
 					  
 				//-----------------------------------------------------------------------------------------------------
 				// ===================  Document Views Navigation Functions ===========================================
@@ -4880,10 +4598,13 @@ drupal_add_js(
         'weight' => '99999',
       )
     );
-
+*/
 drupal_add_js(
       '  
-			 window.imagePagePath =  "'.$variables["islandora_object_page_image"].'";	 //SEMANDRA - set a global path variable	
+			 window.imagePagePath =  "'.$variables["islandora_object_page_image"].'";	 //SEMANDRA - set a global path variable
+       ',
+	   '  
+			 window.docObjectPath =  "'.$variables["islandora_object_path"].'";	 //SEMANDRA - set a global path variable to document objects	
        ',
       array(
         'group' => JS_THEME,
@@ -4897,45 +4618,48 @@ drupal_add_js(
  
  
 <div class="islandora-digitalus-object islandora">
-<!--<div id="metadataWrapper">
-    <?php if (!empty($dc_array['dc:title']['value'])): ?>
-      <?php //print $dc_array['dc:title']['label']; ?> 
-      <?php print "<h1>" . $dc_array['dc:title']['value'] . "</h1>"; ?>
-      
-    <?php endif; ?>
-</div>-->
 
-<?php //print_r($dc_array); ?>
-<p>
+
 <?php 
+	//print_r($dc_array);
 	//$object = $variables['islandora_object'];
 	// $mods = $islandora_object['MODS']->content;
-	//print_r($mods); 
+	//print_r($variables["islandora_object_path"]); 
 	//print_r($object);
 	//print_r($object['MODS']->title);
 	//print_r($object->models);
 	//print_r($dc_array);
 	//print_r($islandora_object);
-	print $metadata;
-	//drupal_set_message(t('This works!'), 'status');
-	?>
-    
-</p>
-<?php 
-	//print_r($mods); 
-	?>
-<?php //print({$islandora_object->id}); ?>
-<?php //print($islandora_object['DIGITALUS']->uri); ?>
+	//drupal_set_message(t('This works!'), 'status');	
+ 	//print({$islandora_object->id}); 
+	//print($islandora_object['DIGITALUS']->uri);    
+ 	 //print $variables['$islandora_object_path']
+?>
 
-<!--<div class ="digitalus_thumb">
-    <?php print $variables['islandora_object_page_image'] ?>
-  </div>-->
-  <div class="islandora-basic-image-content-wrapper clearfix">
+<?php // Render metadata table from XSLT transform - see "mods_display.xsl"
+	print $metadata;
+?>
+<!-- "Open Display" button toggles the text tool overlay window-->
+ <div id="toggleBtn1" class="toggleButton">Open Display</div>
+    
+ <div class="islandora-basic-image-content-wrapper clearfix">
     <?php if (isset($islandora_content)): ?>
-      <div class="islandora-digitalus-content">
-      
-        <?php print $islandora_content; ?>
-     
-      </div>
+        <div class="islandora-digitalus-content" >
+        
+          <!--div for black background behind main display-->
+          <div id="overLay1" class="toolOverlay"></div>
+          
+          <!--div for display of text tool and images of pages-->
+          <div id="overLay2" class="toolOverlay">
+              <div id="toggleBtn2"  class="toggleButton">Close Display</div>
+              <?php print $islandora_content; ?>
+          </div>
+          <script>
+        	  var imagePagePath = "<?php  print_r($variables["islandora_object_path"])?>";
+          </script>
+        
+        </div><!-- end content (digitalus template) -->
     <?php endif; ?>
-  </div>
+  </div> <!-- end wrapper (digitalus template) -->
+
+</div> <!-- end-digitalus-object (digitalus template) -->

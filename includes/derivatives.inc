@@ -46,6 +46,7 @@ function islandora_digitalus_create_all_derivatives(FedoraObject $object) {
   $ds->setContentFromString($html_block);
   $object->ingestDatastream($ds);*/
   
+  
   // Add an HTML block to datastream.
   $html_block = $object['OBJ']->content;
   $ds = $object->constructDatastream('DIGITALUS', "M");
@@ -54,13 +55,21 @@ function islandora_digitalus_create_all_derivatives(FedoraObject $object) {
   $ds->setContentFromString($html_block);
   $object->ingestDatastream($ds);
   
+  // Add document CSS to datastream.
+/*  $html_css_block = $object['OBJ']->content;
+  $ds = $object->constructDatastream('STYLES', "M");
+  $ds->label = 'Uploaded document styles';
+  $ds->mimetype = 'text/html';
+  $ds->setContentFromString($html_css_block);
+  $object->ingestDatastream($ds);*/
+  
   // Add an page image to datastream.
-  $html_block = $object['OBJ']->content;
-  $ds = $object->constructDatastream('IMAGE1', "M");
-  $ds->label = 'Uploaded image';
+  //$html_block = $object['OBJ']->content;
+/*  $ds = $object->constructDatastream('IMAGE1', "M");
+  $ds->label = 'Uploaded page image';
   $ds->mimetype = 'image/jpg';
   $ds->setContentFromString($html_block);
-  $object->ingestDatastream($ds);
+  $object->ingestDatastream($ds);*/
   
   file_unmanaged_delete($file_uri);
   return TRUE;

@@ -1,6 +1,4 @@
 
-
-
 function sessionFromLayer(layer)
 {
     if (layer == undefined)
@@ -11,7 +9,7 @@ function sessionFromLayer(layer)
 
 function applySessionFilter(startSessionIndex, endSessionIndex)
 {
-
+    
     var rules = getStyleSheetRules("ShowLayer");
     var startSession = sessions[startSessionIndex];
     var endSession = sessions[endSessionIndex];
@@ -69,7 +67,13 @@ function applySessionFilter(startSessionIndex, endSessionIndex)
 
     if (!fSingleLayer)
         positionSubstJoinHighlightDivs();
-    
+
+    // TODO: Maybe a method on ZoomCtl?
+    jQuery("#ZoomCtlAnchor")
+        .appendTo(document.body)
+        .hide();
+
+
 }
 
 function setNewLineVisibility()
@@ -110,7 +114,7 @@ function changeRenderMode()
 
 }
 
-function OnMouseOver(e)
+function OnMouseHover(e, on)
 {
 
     e.stopPropagation();
@@ -121,25 +125,17 @@ function OnMouseOver(e)
     
     var action;
     if (empty)
-        action = (elem.attr("data-state") == "add") ? "removed" : "inserted";
+        action = (elem.attr("data-state") == "add") ? "polygonRemove" : "polygonInsert";
     else
-        action = "changed";
-    
-    highlightPolygon(true, this, polygons, action);
-    hoverHighlight(true, this);
+        action = "polygonChange";
+
+    if (polygons)
+        highlightPolygon(on, this, polygons, action);
+        
+    hoverHighlight(on, this);
 
 }
 
-function OnMouseOut(e)
-{
-    e.stopPropagation();
-
-    var elem = jQuery(this).closest("[data-polygons]");
-    var polygons = elem.attr("data-polygons");
-
-    highlightPolygon(false, this, polygons, "changed");
-    hoverHighlight(false, this);
-}
 
 function OnClick(e)
 {
@@ -152,8 +148,14 @@ function OnClick(e)
 
 }
 
-function manageHighlightStyles(on, elem, id)
+function manageHighlightStyles(on, elem)
 {
+
+    var joinID = jQuery(elem).attr("data-joinid");
+    var substID = jQuery(elem).attr("id");
+
+    if (joinID == undefined || joinID == null || joinID == "")
+        return false;
 
     var styleSheet = getStyleSheet("Highlights");
 
@@ -168,16 +170,22 @@ function manageHighlightStyles(on, elem, id)
     if (session >= startSession && session <= endSession)            
     {
 
+        // TODO: now that we only highlight <add>s (not <del>s) maybe we can remove/simplify the _add suffix, the data-mode attribute, etc.
+        
         addRemoveRule(on, styleSheet, 
-            "#" + id + "_del",
-            "color:white; background-color:#999999 !important");
+            ".join_" + joinID + ".mode_add#" + substID,
+            "color:white; background-color:#000000 !important");
+//            "color:white; background-color:#000000; box-shadow:inset 0px 0px 3px 3px rgba(127, 127, 127, 1.0); !important");
 
         addRemoveRule(on, styleSheet, 
-            "#" + id + "_add",
-            "color:white; background-color:#000000 !important");
+            ".join_" + joinID + ".mode_add",
+            "color:black; background-color:#AAAAAA !important");
+//            "color:black; background-color:#AAAAAA; box-shadow:inset 0px 0px 3px 3px rgba(0, 0, 0, 0.25); !important");
 
     } // if layer
 
+    return true;
+    
 }
 
 function hoverHighlight(on, elem)
@@ -188,39 +196,28 @@ function hoverHighlight(on, elem)
 
     while (elem)
     {
-        
-        var id = elem.id.substring(0, elem.id.indexOf("_"))
-        
-        if (id != undefined && id != null && id != "")
-        {
-        
-            manageHighlightStyles(on, elem, id);   
+        if (manageHighlightStyles(on, elem))
             break;
-
-        } // if id
-        
         elem = elem.parentElement;
         
     } // while elem
     
 }
 
-function OnPageChange(prevPage, newPage, zoomData) 
+function OnPageChange(prevPage, newPage, zoomData)
 {
 
-    jQuery("#yourImageID").smoothZoom("destroy").css("background-image", "url(sites/all/modules/islandora_digitalus-7.x-1.0/css/zoom_assets/preloader.gif)").smoothZoom({
+    jQuery("#yourImageID").smoothZoom("destroy").css("background-image", "url(../../sites/all/modules/islandora_digitalus-7.x-1.0/css/zoom_assets/preloader.gif)").smoothZoom({
         width: "100%",
         height: "100%",
         responsive: true,
         animation_SPEED_ZOOM: 0.5,
         on_ZOOM_PAN_UPDATE: updatePolygonTransform,
         on_INIT_DONE: zoomData,
-        // image_url: "images/image" + newPage + ".jpg"
-		image_url: imagePagePath + "image" + newPage //SEMANDRA - uses global set by object inline (islandora-digitalus.tpl.php)
-		
+        image_url: imagePagePath + "IMAGE" + newPage + "/view" //SEMANDRA - uses global set by object inline (islandora-digitalus.tpl.php)
     });
-	
-    jQuery("#svg_page_" + prevPage).children().css({"opacity": 0});
     
+    showPolyPage(prevPage, false);
+    showPolyPage(newPage, true);
+  
 }
-

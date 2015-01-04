@@ -1,5 +1,3 @@
-
-
 var styleSheets =
 { 
     ShowLayer: 1,
@@ -12,7 +10,8 @@ var styleSheets =
     LineBreak: 8,
     Highlights: 9,
     JoinHighlightSessions: 10,
-    JoinHighlights: 11
+    JoinHighlights: 11,
+    PolygonHighlights: 12
 };
 
 function getStyleSheet(name)
@@ -36,27 +35,27 @@ function getStyleSheetRules(name)
     return getRulesFromStyleSheet(getStyleSheet(name));
 }
 
+var normalizeSelector = [];
+
 function addRule(styleSheet, selector, style)
 {
-    if (styleSheet.addRule)
-        styleSheet.addRule(selector, style);
-    else
-        styleSheet.insertRule(selector + "{ " + style + " }", getRulesFromStyleSheet(styleSheet).length);
+    var i = styleSheet.insertRule(selector + "{ " + style + " }", getRulesFromStyleSheet(styleSheet).length);
+    normalizeSelector[selector] = styleSheet.cssRules[i].selectorText;
 }
 
 function removeRule(styleSheet, selector)
 {
 
+    var normalizedSelector = normalizeSelector[selector];
+    if (!normalizedSelector)
+        normalizedSelector = selector;
+
     var rules = getRulesFromStyleSheet(styleSheet);
 
     for (i=rules.length-1; i>=0; i--)
     {
-        var rule = rules[i];
-        if (rule.selectorText.replace(/\"/g, "'") == selector)
-        {
-            if (styleSheet.removeRule) styleSheet.removeRule(i);
-            else if (styleSheet.deleteRule) styleSheet.deleteRule(i);
-        }
+        if (rules[i].selectorText == normalizedSelector)
+            styleSheet.deleteRule(i);
     }
 
 }

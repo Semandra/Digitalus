@@ -15,3 +15,55 @@ root {
 	height: 600px;
 	position: relative;
 }
+
+.page-islandora-object h1.page-header{
+	
+	display: none;
+}
+
+/* ------------- Overlay Styles --------------- */
+
+#overLay1 {
+	z-index: 1000;
+	width: 92%;
+	height: 92%;
+	position: fixed;
+	top: 4%;
+	left: 4%;
+	background-color: #444;
+	box-shadow: 5px 5px 30px #333;
+	visibility:hidden;
+	}
+#overLay2 {
+	z-index: 1001;
+	background-color: #F8F8F8;
+	width: 90%;height: 90%;
+	position: fixed;
+	top: 5%;
+	left: 5%;
+	visibility:hidden;
+}
+.toggleButton {
+	cursor: pointer;
+	background-color: #ddd;
+	padding: 20px;
+	border-radius:5px;
+}
+
+#toggleBtn1 {
+	clear: both;
+    display: block;
+    height: 50px;
+    line-height: 20px;
+    padding: 15px;
+    position: relative;
+    text-align: center;
+    width: 200px;
+}
+
+#toggleBtn2 {
+	position:absolute;
+	z-index: 1003; 
+	right:10px;
+	top: 20px
+}

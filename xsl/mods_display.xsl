@@ -94,25 +94,28 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
 		<xsl:otherwise>
 			<xsl:for-each select="mods:mods">
 <!--			<oai_dc:dc xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd"> -->
-<!--<table id="metadataMain">
-<tr><th colspan="2"><h3 class="islandora-obj-details-metadata-title">Metadata <span class="islandora-obj-details-dsid">(MODS)</span></h3></th></tr>
-				<xsl:apply-templates/>
-</table>
--->
 
-            <div id="poem_navigation">
-            	 <div id="" class="poem_meta_wrapper">
+
+          <div id="poem_navigation">
+            	 <div id="test" class="poem_meta_wrapper">
                    
-                   <xsl:apply-templates select="mods:titleInfo" />
-                    
-                </div>
+                   <h1><xsl:apply-templates select="mods:titleInfo" /></h1>
+                    <p id="abstract-tes"><xsl:apply-templates select="mods:abstract" /></p>
+  <!--              </div>
                <div id=""  class="poem_meta_wrapper">
             		<table id="versionTable">
                		 <xsl:apply-templates select="mods:poem"/>
                     </table>
-                <br class='clearfix' />
+                <br class='clearfix' />-->
             	</div>
-			</div>
+			</div>  
+
+<table id="metadataMain">
+<tr><th colspan="2"><h3 class="islandora-obj-details-metadata-title">Metadata <span class="islandora-obj-details-dsid">(MODS)</span></h3></th></tr>
+				<xsl:apply-templates/>
+</table>
+
+
 
 <!--			</oai_dc:dc> -->
 			</xsl:for-each>
@@ -123,30 +126,45 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
     
  <!-- =============================================================================================   -->   
    
-   	<xsl:template match="mods:titleInfo">
+ <!--  	<xsl:template match="mods:titleInfo">
 		<div id="" class="poem_meta_wrapper">
         
 			<h1><xsl:value-of select="mods:title"/></h1>
-           <h3><xsl:value-of select="mods:subTitle"/></h3>
+          <h3><xsl:value-of select="mods:subTitle"/></h3>
+            
+		</div>
+	</xsl:template> -->
+    
+   <xsl:template match="mods:abstract">
+		<div id="" class="">
+           <div><xsl:value-of select="mods:abstract"/></div>
             
 		</div>
 	</xsl:template> 
+     
     
     <xsl:template match="mods:poem">
                 <tr>
                     <td>
                          <xsl:text>Version: </xsl:text><xsl:value-of select="mods:versionNum"/>
                     </td>
+                </tr>
+                <tr>
                     <td>
                         <xsl:text>Date: </xsl:text><xsl:value-of select="mods:pubDate"/>
                     </td>
+                </tr>
+                <tr>
                     <td>
                         <xsl:text>Pub Name: </xsl:text><xsl:value-of select="mods:pubName"/>
                     </td>
+                </tr>
+                <tr>
                     <td>
                         <xsl:text>Pages: </xsl:text><xsl:value-of select="mods:pubPageNum"/>
                     </td>
-                    <td>
+                </tr>
+<!--                    <td>
                             <xsl:attribute name="id">table_reading_v<xsl:value-of select="mods:versionNum"/></xsl:attribute>
                          <div>
                              <xsl:attribute name="class">button tableButton</xsl:attribute>
@@ -163,10 +181,9 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
                              <xsl:attribute name="mode">analysis</xsl:attribute>
                              <xsl:text>Show Analysis</xsl:text>
                             </div>
-                    </td>
+                    </td>-->
                     
-                    
-                </tr>
+                 
                 
     </xsl:template>   
     
@@ -203,7 +220,7 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
     
     
     
-<!--	
+	
 	<xsl:template match="mods:titleInfo">
 		
 		<tr><td id='metadata-title'><xsl:value-of select="$title"/></td><td>
@@ -237,7 +254,7 @@ Version 1.0	2007-05-04 Tracy Meehleib <tmee@loc.gov>
 			</td></tr>
  	
 	</xsl:template>
-	-->
+	<!---->
     
     <!--  ====================== SEMANDRA ======================================= -->
     

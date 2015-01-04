@@ -26,7 +26,7 @@ function PageCtl(elem, maxPage, onpagechange)
             
     this.prevButton = CreateButton(elem, "idPrev", 4, 4, "-117px"); 
     CreateLabel(elem, "idPageLabel", 26, 4, 20, 18, "Page");
-    this.pageEdit = CreateEdit(elem, "idPageCtl", 54, 4, 20, 14);
+    this.pageEdit = CreateEdit(elem, "idPageCtl", 54, 4, 20, 18);  // Semandra - Changed the fourth value (height) to 18 from 14
     this.nextButton = CreateButton(elem, "idNext", 114, 4, "-167px");
     CreateLabel(elem, "idPageLast", 80, 4, 30, 18, "of " + this.maxPage);
     
@@ -127,9 +127,9 @@ function CreateButton(parent, id, left, top, icon)
             })
         .appendTo(button);
 
-    var buttonIcon = jQuery("<div></div>", { id: id })
+    var buttonIcon = jQuery("<div></div>", { id: id }) // Semandra - changed path to file 
         .css({
-            background: "url('zoom_assets/icons.png') no-repeat " + icon + " -17px",
+            background: "url('../../sites/all/modules/islandora_digitalus-7.x-1.0/css/zoom_assets/icons.png') no-repeat " + icon + " -17px",
             left: "1px",
             top: "1px",
             width: "16px",

@@ -41,7 +41,7 @@ function islandora_digitalus_upload_form(array $form, array &$form_state) {
  
 // $entryName = "page1";
  
-  	$form['pages'] = array(
+/*  	$form['pages'] = array(
     '#title' => t('Page Image File'),
     '#type' => 'managed_file',
     '#required' => FALSE,
@@ -52,9 +52,7 @@ function islandora_digitalus_upload_form(array $form, array &$form_state) {
       'file_validate_extensions' => $extensions,
       'file_validate_size' => array($upload_size * 1024 * 1024),
     ),
-	
-
-  );  
+  );  */
   
 
   return $form;
@@ -70,6 +68,7 @@ function islandora_digitalus_upload_form(array $form, array &$form_state) {
  */
 function islandora_digitalus_upload_form_submit(array $form, array &$form_state) {
   $object = $form_state['islandora']['objects'][0];
+  
   if (empty($object['OBJ'])) {
     $ds = $object->constructDatastream('OBJ', 'M');
     $object->ingestDatastream($ds);

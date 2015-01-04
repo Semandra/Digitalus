@@ -324,7 +324,7 @@
 	  
 	  
 	  
-      <!--<element name="name">
+     <element name="name">
         <properties>
           <type>tabs</type>
           <access>TRUE</access>
@@ -466,8 +466,8 @@
             </children>
           </element>
         </children>
-      </element>-->
-<!--      <element name="typeOfResource">
+      </element>
+      <element name="typeOfResource">
         <properties>
           <type>select</type>
           <access>TRUE</access>
@@ -543,7 +543,7 @@
         <children/>
       </element>
 	  
--->
+
 	  
 	  
 	  
@@ -551,7 +551,7 @@
 	  
 	  
 	  
-      <!--<element name="originInfo">
+      <element name="originInfo">
         <properties>
           <type>fieldset</type>
           <access>TRUE</access>
@@ -696,8 +696,8 @@
             <children/>
           </element>
         </children>
-      </element>-->
-     <!-- <element name="language">
+      </element>
+     <element name="language">
         <properties>
           <type>textfield</type>
           <access>TRUE</access>
@@ -1393,7 +1393,7 @@
             </children>
           </element>
         </children>
-      </element>-->
+      </element>
     </children>
   </form>
 </definition>

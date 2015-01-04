@@ -80,8 +80,12 @@ function createSubstJoinHighlightDivs()
 
 /*
 
-debugger;
-There is a problem. At this point it seems that the drupal version can not see the parent TD tag and is not getting the top, bottom and height dimensions. My guess is that there is an error before this point.
+Bug! ;
+There is a problem. At this point it seems that the drupal version can not see 
+the parent TD tag and is not getting the top, bottom and height dimensions. 
+My guess is that there is an error before this point.
+
+Is this true? The join bar works in Chrome/Safari but not in Firefox
 
 */
 

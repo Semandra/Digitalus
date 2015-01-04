@@ -171,6 +171,7 @@ function islandora_digitalus_preprocess_islandora_digitalus(array &$variables) {
   };*/
   
   $variables['islandora_object_page_image'] = url("islandora/object/{$islandora_object->id}/datastream/"); // SEMANDRA - path to page images
+  $variables['islandora_object_path'] = url("islandora/object/{$islandora_object->id}/datastream/"); // SEMANDRA - path to objects
 }
 
 /**

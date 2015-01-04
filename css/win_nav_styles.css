@@ -1,9 +1,8 @@
 @charset "UTF-8";
 /* CSS Document */
 
-body {
-	width: 1000px;
-	margin: auto;
+.not-logged-in #tabs-wrapper {
+	display: none;
 }
 
 .clearfix {
@@ -14,6 +13,9 @@ body {
 	display: none;
 }
 
+.hideDisplay {
+	visibility: hidden;
+}
 
 .sliderWrapper {
 /*	width: 300px;
@@ -40,10 +42,13 @@ body {
 
 .poem_meta_wrapper {
 	float: left;
+	width: 50%;
+	min-width: 400px;
 }
 
 #versionTable {
 	background-color: #E2E8E2;
+	max-width: 450px;
 }
 
 #displayWindow1 {
@@ -131,6 +136,7 @@ body {
 	/* [disabled]background-color: #F0CFDE; */
 	width: 50%;
 	float: left;
+	min-width: 430px;
 }
 
 
@@ -179,7 +185,7 @@ body {
 	margin: 5px;
 	float: left;
 	border: 1px solid #AAA9A9;
-	height: 20px;
+	height: 30px;
 	width: 100px;
 	background-image: none;
 	font-family: Times, "Times New Roman", serif;
@@ -188,32 +194,32 @@ body {
 }
 
 .buttonAnalysis {
-	background-position: -810px 13px;
+	background-position: -810px 17px;
 	width: 42px;
 }
 .buttonReading {
-	background-position: -131px 13px;
+	background-position: -131px 17px;
 	width: 48px;
 }
 .buttonBothOpen {
-	background-position: -406px 13px;
+	background-position: -406px 17px;
 	width: 73px;
 }
 .buttonBothClose {
-	background-position: -479px 13px;
+	background-position: -479px 17px;
 	width: 78px;
 }
 
 .buttonToggle {
-	background-position: 0px 13px;
+	background-position: 0px 17px;
 	width: 42px;
 }
 .buttonComparison {
-	background-position: -643px 13px;
+	background-position: -643px 17px;
 	width: 79px;
 }
 .buttonClose {
-	background-position: -321px 13px;
+	background-position: -321px 17px;
 	width: 38px;	
 }
 
@@ -224,12 +230,12 @@ body {
 }
 #versionLinkList1 ul, #versionLinkList2 ul {
 	padding: 0;
+	list-style-image: none;
 }
 
 #versionLinkList1 ul li, #versionLinkList2 ul li {
 	list-style-type: none;
-	margin: 0;
-	clear: both;	
+	margin: 0;	
 }
 
 .removeMarkup {
