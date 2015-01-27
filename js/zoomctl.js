@@ -1,7 +1,4 @@
-(function($) { 
-
-$.fn.zoomCtl = function(param)
-//jQuery.fn.zoomCtl = function(param)
+jQuery.fn.zoomCtl = function(param)
 {
 
     var zoomCtl = this.data("ZoomCtl");
@@ -40,7 +37,6 @@ $.fn.zoomCtl = function(param)
     return this;
     
 }
-
  
 function ZoomCtl(container)
 {
@@ -147,5 +143,3 @@ ZoomCtl.prototype.hide = function()
         .delay(2000)
         .animate({opacity: 0.5}, "slow");    
 }
-
-})(jQuery); 

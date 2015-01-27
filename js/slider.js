@@ -1,13 +1,8 @@
-
-
-//$.fn.Slider = function(sliderData)
 jQuery.fn.Slider = function(sliderData)
-//jQuery.fn.Slider = function(sliderData)
 {
     this.slider = new Slider(this.get(0), sliderData);
     document.slider = this.slider; // TODO: this global is yucky
 }
-
 
 function Knob(slider)
 {
@@ -264,7 +259,9 @@ function Knob(slider)
 
 function Slider(parentElem, items)
 {
-    
+
+    jQuery("body").keydown(OnKeyDown);
+
     this.parentElem = parentElem;
     this.items = items;
     this.itemCount = items.length; 
@@ -330,7 +327,6 @@ function Slider(parentElem, items)
     
 }
 
-
 function OnKeyDown(event)
 {
 
@@ -377,5 +373,3 @@ function OnKeyDown(event)
     return true;
     
 }
-
- 

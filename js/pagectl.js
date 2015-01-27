@@ -1,11 +1,8 @@
-
 jQuery.fn.PageCtl = function(numPages, OnPageChange)
-
 {
     this.pageCtl = new PageCtl(this, numPages, OnPageChange);
     return this.pageCtl;
 }
- 
 
 function PageCtl(elem, maxPage, onpagechange)
 {
@@ -16,17 +13,17 @@ function PageCtl(elem, maxPage, onpagechange)
     this.onpagechange = onpagechange;   
     this.curPage = -1;
     
-    jQuery(elem)
+    $(elem)
         .addClass("noSel")
         .css({ width: "135px", height: "26px", zIndex: 20 });
         
-    jQuery("<div></div>")
+    $("<div></div>")
         .addClass("noSel controlsBg")
         .appendTo(elem);
             
     this.prevButton = CreateButton(elem, "idPrev", 4, 4, "-117px"); 
     CreateLabel(elem, "idPageLabel", 26, 4, 20, 18, "Page");
-    this.pageEdit = CreateEdit(elem, "idPageCtl", 54, 4, 20, 18);  // Semandra - Changed the fourth value (height) to 18 from 14
+    this.pageEdit = CreateEdit(elem, "idPageCtl", 54, 4, 20, 18); // Customized by Semandra - see Read-Me notes
     this.nextButton = CreateButton(elem, "idNext", 114, 4, "-167px");
     CreateLabel(elem, "idPageLast", 80, 4, 30, 18, "of " + this.maxPage);
     
@@ -107,7 +104,7 @@ PageCtl.prototype.SetButtonState = function(hover)
 function CreateButton(parent, id, left, top, icon)
 {
 
-    var button = jQuery("<div></div>")
+    var button = $("<div></div>")
         .addClass("noSel controlsBtn")
         .css({
             left: left + "px",
@@ -115,7 +112,7 @@ function CreateButton(parent, id, left, top, icon)
             })
         .appendTo(parent);
 
-    var buttonBack = jQuery("<div></div>")
+    var buttonBack = $("<div></div>")
         .css({
             background: "white",
             borderRadius: 2,
@@ -127,10 +124,9 @@ function CreateButton(parent, id, left, top, icon)
             })
         .appendTo(button);
 
-    var buttonIcon = jQuery("<div></div>", { id: id }) // Semandra - changed path to file 
+    var buttonIcon = $("<div></div>", { id: id })
         .css({
-            //background: "url('../../sites/all/modules/islandora_digitalus-7.x-1.0/css/zoom_assets/icons.png') no-repeat " + icon + " -17px",
-			background: "url('../../sites/digitalpage.ca/modules/islandora_digitalus-7.x-1.0/css/zoom_assets/icons.png') no-repeat " + icon + " -17px",
+            background: "url('../../sites/digitalpage.ca/modules/islandora_digitalus-7.x-1.0/jquery/css/zoom_assets/icons.png') no-repeat " + icon + " -17px", // customized by Semandrda - see Read-me notes
             left: "1px",
             top: "1px",
             width: "16px",
@@ -149,7 +145,7 @@ function CreateButton(parent, id, left, top, icon)
 
 function CreateLabel(parent, id, left, top, width, height, text)
 {
-    return jQuery("<div></div>", { id: id })
+    return $("<div></div>", { id: id })
         .addClass("noSel controlsTxt")
         .text(text)
         .css({
@@ -164,7 +160,7 @@ function CreateLabel(parent, id, left, top, width, height, text)
 
 function CreateEdit(parent, id, left, top, width, height)
 {
-    return jQuery("<input></input>", { id:id, type: "text" })
+    return $("<input></input>", { id:id, type: "text" })
         .addClass("controlsTxt")
         .css({
             left: left + "px",
@@ -177,4 +173,3 @@ function CreateEdit(parent, id, left, top, width, height)
         .keyup(function(e) { if (e.keyCode == 13) parent.pageCtl.NotifyPageChange(); })
         .appendTo(parent);
 }
-

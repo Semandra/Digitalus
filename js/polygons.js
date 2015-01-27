@@ -3,7 +3,7 @@ function highlightPolygon(on, elem, idList, action)
 
     var ids;
 
-    if (document.renderMode != "changesMode")
+    if (document.renderMode != "processMode")
         return;
 
     showPolyForPage(on, document.pageCtl.GetPage(), idList, action);
@@ -14,7 +14,7 @@ function highlightPolygon(on, elem, idList, action)
     }
     else
     {
-        jQuery("#ZoomCtl").zoomCtl("hide");        
+        $("#ZoomCtl").zoomCtl("hide");        
     }
  
 }
@@ -22,10 +22,7 @@ function highlightPolygon(on, elem, idList, action)
 function updatePolygonTransform(zoomData, animationComplete)
 {
 
-	console.log("Function updatePolygonTransform in polygons.js");
-	// This function activates when the page is loaded and when the window reizes
-
-    var svg = jQuery("#svg_pages").get(0);
+    var svg = $("#svg_pages").get(0);
 
     svg.setAttribute("transform", 
         "translate(" + (-zoomData.scaledX) + ", " + (-zoomData.scaledY) + ") " +
@@ -37,12 +34,12 @@ var lastZoomCode = undefined;
 function zoomToPolyOnPage(zoomIn, newPage, idList)
 {
 
-    var zoomData = jQuery('#yourImageID').smoothZoom('getZoomData');
+    var zoomData = $('#yourImageID').smoothZoom('getZoomData');
 
     if (!zoomIn)
     {
     
-        jQuery("#yourImageID")
+        $("#yourImageID")
             .smoothZoom('focusTo',{
                    x: zoomData.centerX,
                    y: zoomData.centerY,
@@ -78,6 +75,9 @@ function zoomToPolyOnPage(zoomIn, newPage, idList)
     {
 
         var id = ids[i];
+        if (!polygonPages[id]) // TODO: needed?
+            continue;
+            
         var page = polygonPages[id].page;
 
         // skip polygons not on this page
@@ -100,8 +100,8 @@ function zoomToPolyOnPage(zoomIn, newPage, idList)
     function ScaleY(y) { return (y / 1000) * zoomData.normHeight; }
 
     // how big is the picture
-    var pictureCtlWidth = jQuery('#yourImageID').width();
-    var pictureCtlHeight = jQuery('#yourImageID').height();
+    var pictureCtlWidth = $('#yourImageID').width();
+    var pictureCtlHeight = $('#yourImageID').height();
 
     var zoomX = Math.floor(pictureCtlWidth*100 / ScaleX(zoomWidth));
     var zoomY = Math.floor(pictureCtlHeight*100 / ScaleY(zoomHeight));
@@ -114,7 +114,7 @@ function zoomToPolyOnPage(zoomIn, newPage, idList)
     x = ScaleX((zoomLeft + zoomRight) / 2);
     y = ScaleY((zoomTop + zoomBottom) / 2);
 
-    jQuery("#yourImageID")
+    $("#yourImageID")
         .smoothZoom('focusTo',{
                x: x,
                y: y,
@@ -158,13 +158,16 @@ function showPolyForPage(on, newPage, idList, action)
     {
 
         var id = ids[i];
+        if (!polygonPages[id]) // TODO: needed?
+            continue;
+
         var page = polygonPages[id].page;
 
         // skip polygons not on this page
         if (page != newPage)
             continue;
         
-        var $path = jQuery("#" + id + " > .polygonContent");
+        var $path = $("#" + id + " > .polygonContent");
 
         $path.attr("class", (on ? addClass : removeClass)($path.attr("class"), action));
                         
@@ -190,6 +193,9 @@ function configureZoomCtl(elem, idList, action)
     for (i=0; i<ids.length; i++)
     {
     
+        if (!polygonPages[ids[i]]) // TODO: needed?
+            continue;
+        
         var page = polygonPages[ids[i]].page;
         
         if (page == currPage)
@@ -208,7 +214,7 @@ function configureZoomCtl(elem, idList, action)
 
     if (!foundPrev && !foundCurr && !foundNext)
     {
-        jQuery("#ZoomCtlAnchor")
+        $("#ZoomCtlAnchor")
             .appendTo(document.body)
             .hide();
         return;
@@ -240,7 +246,7 @@ function configureZoomCtl(elem, idList, action)
 
     if (elem)
     {
-        jQuery("#ZoomCtlAnchor")
+        $("#ZoomCtlAnchor")
             .appendTo(elem)
             .show()
             .position(
@@ -251,7 +257,7 @@ function configureZoomCtl(elem, idList, action)
                 });
     }
      
-    jQuery("#ZoomCtl")
+    $("#ZoomCtl")
         .zoomCtl(
             {
                 onPrev: fnPrev,
@@ -265,7 +271,7 @@ function configureZoomCtl(elem, idList, action)
 function showPolyPage(page, on)
 {
     
-    var $page = jQuery("#svg_page_" + page);
+    var $page = $("#svg_page_" + page);
     $page.attr("class", (on ? addClass : removeClass)($page.attr("class"), "polygonPageShow"));
 
     if (!on)
@@ -275,6 +281,6 @@ function showPolyPage(page, on)
 
 function showAllPolyOnPage(page, on)
 {
-    var $page = jQuery("#svg_page_" + page);
+    var $page = $("#svg_page_" + page);
     $page.attr("class", (on ? addClass : removeClass)($page.attr("class"), "polygonPageShowHint"));
 }

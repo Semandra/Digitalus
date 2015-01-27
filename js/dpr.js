@@ -1,6 +1,4 @@
 
-
-
 function sessionFromLayer(layer)
 {
     if (layer == undefined)
@@ -12,14 +10,16 @@ function sessionFromLayer(layer)
 function applySessionFilter(startSessionIndex, endSessionIndex)
 {
 
+    var $ = jQuery;
+    
     var rules = getStyleSheetRules("ShowLayer");
     var startSession = sessions[startSessionIndex];
     var endSession = sessions[endSessionIndex];
     
-    var fAllChangesMode = (document.renderMode == "changesMode"); 
-    var fFinalMode = (document.renderMode == "finalMode");
+    var fProcessMode = (document.renderMode == "processMode"); 
+    var fProductMode = (document.renderMode == "productMode");
     var fReadingMode = (document.renderMode == "readingMode");
-    var fSingleLayer = (fFinalMode || fReadingMode);
+    var fSingleLayer = (fProductMode || fReadingMode);
     
     for (layerIndex=0; layerIndex<layers.length; layerIndex++)
     {
@@ -49,11 +49,11 @@ function applySessionFilter(startSessionIndex, endSessionIndex)
     getStyleSheet("SessionColor").disabled = fSingleLayer; 
     getStyleSheet("LineBreak").disabled = !fSingleLayer;
 
-    getStyleSheet("AllChangesMode").disabled = !fAllChangesMode;
-    getStyleSheet("FinalMode").disabled = !fFinalMode;
+    getStyleSheet("ProcessMode").disabled = !fProcessMode;
+    getStyleSheet("ProductMode").disabled = !fProductMode;
     getStyleSheet("ReadingMode").disabled = !fReadingMode;
 
-    if (fFinalMode || fReadingMode)
+    if (fProductMode || fReadingMode)
     {
         var styleSheet = getStyleSheet("Highlights");
         var rules = getRulesFromStyleSheet(styleSheet);
@@ -65,22 +65,61 @@ function applySessionFilter(startSessionIndex, endSessionIndex)
         }
     }
 
+    $(".lineNum").each(function(){
+        $(this).html("").hide();
+    });
+
     setNewLineVisibility();
 
+    if (!fProcessMode)
+    {
+        var lineNum = 0;
+        $(".lineNum").each(function(){
+         
+            // if this line has the "data-firstline" attribute, reset the line numbering
+            if ($(this).attr("data-firstline") == "true")
+                lineNum = 0;
+    
+            // if the contents of the line is empty, don't show a line number
+            if ($(this).closest(".hideWhenEmpty").length > 0 && ($(this).closest(".hideWhenEmpty").width() <= 0 || $(this).closest(".hideWhenEmpty").height() <= 0))
+                return;
+            
+            $(this).css("display", "inline-block");
+            
+            // if this line has the "data-omitline" attribute, skip over it
+            if ($(this).attr("data-omitline"))
+                return;
+    
+            // increment the line number
+            lineNum++;
+    
+            // in reading mode, skip all but every 5th line
+            if (document.renderMode == "readingMode" && (lineNum % 5) != 0)
+                return;
+                
+            // insert the line number into the span
+            $(this).html(lineNum);
+       
+        });
+    }
+    
     if (!fSingleLayer)
         positionSubstJoinHighlightDivs();
-    
+
+    // TODO: Maybe a method on ZoomCtl?
+    $("#ZoomCtlAnchor")
+        .appendTo(document.body)
+        .hide();
+
+
 }
 
 function setNewLineVisibility()
 {
-    var spans = document.getElementsByClassName("Measure");
-    for (i=0; i<spans.length; i++)
-    {
-        var span = spans[i];
-        document.getElementById("newline_"+span.id).style.display = (span.offsetHeight>0 && span.offsetWidth>0) ? "block" : "none"         
-    }
-    
+    $ = jQuery;
+    $(".hideWhenEmpty").each(function(){
+        $(this).toggle($(this).width() > 0 && $(this).height() > 0);       
+    });
 }
 
 function changeRenderMode()
@@ -92,8 +131,8 @@ function changeRenderMode()
 
     var buttons = 
         [ 
-            document.getElementById("changesMode"),
-            document.getElementById("finalMode"),
+            document.getElementById("processMode"),
+            document.getElementById("productMode"),
             document.getElementById("readingMode")
         ];
 
@@ -105,41 +144,33 @@ function changeRenderMode()
     
     document.renderMode = buttonClicked.id;
 
-    var showOneLayer = (document.renderMode != "changesMode");
+    var showOneLayer = (document.renderMode != "processMode");
     knob.SetSingleSelectMode(showOneLayer);
 
 }
 
-function OnMouseOver(e)
+function OnMouseHover(e, on)
 {
 
     e.stopPropagation();
     
-    var elem = jQuery(this).closest("[data-polygons]");
+    var elem = $(this).closest("[data-polygons]");
     var polygons = elem.attr("data-polygons");
     var empty = (elem.children().eq(1).text() == "~");
     
     var action;
     if (empty)
-        action = (elem.attr("data-state") == "add") ? "removed" : "inserted";
+        action = (elem.attr("data-state") == "add") ? "polygonRemove" : "polygonInsert";
     else
-        action = "changed";
-    
-    highlightPolygon(true, this, polygons, action);
-    hoverHighlight(true, this);
+        action = "polygonChange";
+
+    if (polygons)
+        highlightPolygon(on, this, polygons, action);
+        
+    hoverHighlight(on, this);
 
 }
 
-function OnMouseOut(e)
-{
-    e.stopPropagation();
-
-    var elem = jQuery(this).closest("[data-polygons]");
-    var polygons = elem.attr("data-polygons");
-
-    highlightPolygon(false, this, polygons, "changed");
-    hoverHighlight(false, this);
-}
 
 function OnClick(e)
 {
@@ -152,8 +183,16 @@ function OnClick(e)
 
 }
 
-function manageHighlightStyles(on, elem, id)
+function manageHighlightStyles(on, elem)
 {
+
+    $ = jQuery;
+
+    var joinID = $(elem).attr("data-joinid");
+    var substID = $(elem).attr("id");
+
+    if (joinID == undefined || joinID == null || joinID == "")
+        return false;
 
     var styleSheet = getStyleSheet("Highlights");
 
@@ -168,59 +207,54 @@ function manageHighlightStyles(on, elem, id)
     if (session >= startSession && session <= endSession)            
     {
 
+        // TODO: now that we only highlight <add>s (not <del>s) maybe we can remove/simplify the _add suffix, the data-mode attribute, etc.
+        
         addRemoveRule(on, styleSheet, 
-            "#" + id + "_del",
-            "color:white; background-color:#999999 !important");
+            ".join_" + joinID + ".mode_add#" + substID,
+            "color:white; background-color:#000000 !important");
 
         addRemoveRule(on, styleSheet, 
-            "#" + id + "_add",
-            "color:white; background-color:#000000 !important");
+            ".join_" + joinID + ".mode_add",
+            "color:black; background-color:#AAAAAA !important");
 
     } // if layer
 
+    return true;
+    
 }
 
 function hoverHighlight(on, elem)
 {
 
-    if (document.renderMode == "finalMode" || document.renderMode == "readingMode")
+    if (document.renderMode == "productMode" || document.renderMode == "readingMode")
         return;
 
     while (elem)
     {
-        
-        var id = elem.id.substring(0, elem.id.indexOf("_"))
-        
-        if (id != undefined && id != null && id != "")
-        {
-        
-            manageHighlightStyles(on, elem, id);   
+        if (manageHighlightStyles(on, elem))
             break;
-
-        } // if id
-        
         elem = elem.parentElement;
         
     } // while elem
     
 }
 
-function OnPageChange(prevPage, newPage, zoomData) 
+function OnPageChange(prevPage, newPage, zoomData)
 {
 
-    jQuery("#yourImageID").smoothZoom("destroy").css("background-image", "url(sites/all/modules/islandora_digitalus-7.x-1.0/css/zoom_assets/preloader.gif)").smoothZoom({
+    $ = jQuery;
+
+    $("#yourImageID").smoothZoom("destroy").css("background-image", "url(../../sites/digitalpage.ca/modules/islandora_digitalus-7.x-1.0/jquery/css/zoom_assets/preloader.gif)").smoothZoom({  //customized by Semandra - see Read-Me notes
         width: "100%",
         height: "100%",
         responsive: true,
         animation_SPEED_ZOOM: 0.5,
         on_ZOOM_PAN_UPDATE: updatePolygonTransform,
         on_INIT_DONE: zoomData,
-        // image_url: "images/image" + newPage + ".jpg"
-		image_url: imagePagePath + "IMAGE" + newPage + "/view" //SEMANDRA - uses global set by object inline (islandora-digitalus.tpl.php)
-		
+        image_url: "images/image" + newPage + ".jpg"
     });
-	
-    jQuery("#svg_page_" + prevPage).children().css({"opacity": 0});
     
+    showPolyPage(prevPage, false);
+    showPolyPage(newPage, true);
+  
 }
-
