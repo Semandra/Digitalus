@@ -1,5 +1,5 @@
-name = Digital Page Test Module
-description = For testing Islandora customization.
+name = Islandora Digitalus
+description = Module to function with the Digital Page reader.
 package = Islandora
-version = "7.x-1.x-dev"
+version = "7.x-1.4"
 core = "7.x"

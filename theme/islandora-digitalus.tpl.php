@@ -44,7 +44,6 @@ $path = drupal_get_path('module', 'islandora_digitalus');  //gets path for css a
 //jquery-1.9.1.js is also required but is loaded by Drupal through a separate module);
 
 	drupal_add_js("$path/jquery/js/jquery-ui-1.10.3.custom.min.js");
-//	drupal_add_js("$path/jquery/js/jquery.wrap-svg.js");
 	drupal_add_js("$path/jquery/zoom_assets/jquery.smoothZoom.min.js");
 	
 	drupal_add_js("$path/js/dpr.js");
@@ -54,6 +53,7 @@ $path = drupal_get_path('module', 'islandora_digitalus');  //gets path for css a
 	drupal_add_js("$path/js/stylesheet.js");
 	drupal_add_js("$path/js/substjoin.js");
 	drupal_add_js("$path/js/zoomctl.js");
+	drupal_add_js("$path/js/digitalus.js");
 
 drupal_add_js(
       '  
@@ -75,26 +75,7 @@ drupal_add_js(
  
 <div class="islandora-digitalus-object islandora">
 
-
-<?php 
-	//print_r($dc_array);
-	//$object = $variables['islandora_object'];
-	// $mods = $islandora_object['MODS']->content;
-	//print_r($variables["islandora_object_path"]); 
-	//print_r($object);
-	//print_r($object['MODS']->title);
-	//print_r($object->models);
-	//print_r($dc_array);
-	//print_r($islandora_object);
-	//drupal_set_message(t('This works!'), 'status');	
- 	//print({$islandora_object->id}); 
-	//print($islandora_object['DIGITALUS']->uri);    
- 	 //print $variables['$islandora_object_path']
-?>
-
-
-
-    
+   
  <div class="islandora-basic-image-content-wrapper clearfix">
     <?php if (isset($islandora_content)): ?>
         <div class="islandora-digitalus-content" >

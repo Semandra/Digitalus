@@ -19,7 +19,7 @@
 function islandora_digitalus_upload_form(array $form, array &$form_state) {
   $upload_size = min((int) ini_get('post_max_size'), (int) ini_get('upload_max_filesize'));
   $extensions = array('htm html');
-  $imageExtenstions = array('jpg png');
+  $imageExtensions = array('jpg png');
   
   $form = array();
   $form['file'] = array(
@@ -33,27 +33,37 @@ function islandora_digitalus_upload_form(array $form, array &$form_state) {
       'file_validate_extensions' => $extensions,
       'file_validate_size' => array($upload_size * 1024 * 1024),
     ),
-	
-
   );
  
- //======= SEMANDRA ================= Attempting to add a form entry for a page image 
+ //======= CSS File ================= 
  
-// $entryName = "page1";
- 
-/*  	$form['pages'] = array(
-    '#title' => t('Page Image File'),
+  	$form['styles'] = array(
+    '#title' => t('CSS File'),
     '#type' => 'managed_file',
-    '#required' => FALSE,
-    '#description' => t('Select images of pages to upload.<br/>Files must be less than <b>@size MB.</b><br/>Allowed file types: <b>@ext.</b>', array('@size' => $upload_size, '@ext' => $extensions[0])),
+    '#required' => TRUE,
+    '#description' => t('Select the CSS file to upload. This should have an HTML extension.<br/>Files must be less than <b>@size MB.</b><br/>Allowed file types: <b>@ext.</b>', array('@size' => $upload_size, '@ext' => $extensions[0])),
     '#default_value' => isset($form_state['values']['files']) ? $form_state['values']['files'] : NULL,
     '#upload_location' => 'temporary://',
     '#upload_validators' => array(
       'file_validate_extensions' => $extensions,
       'file_validate_size' => array($upload_size * 1024 * 1024),
     ),
-  );  */
-  
+  );  
+
+ //======= first image of page file ================= 
+ 
+ 	$form['pages'] = array(
+    '#title' => t('Page Image File'),
+    '#type' => 'managed_file',
+    '#required' => FALSE,
+    '#description' => t('Select images of pages to upload.<br/>Files must be less than <b>@size MB.</b><br/>Allowed file types: <b>@ext.</b>', array('@size' => $upload_size, '@ext' => $imageExtensions[0])),
+    '#default_value' => isset($form_state['values']['files']) ? $form_state['values']['files'] : NULL,
+    '#upload_location' => 'temporary://',
+    '#upload_validators' => array(
+      'file_validate_extensions' => $imageExtensions,
+      'file_validate_size' => array($upload_size * 1024 * 1024),
+    ),
+  );  
 
   return $form;
 }
@@ -81,5 +91,41 @@ function islandora_digitalus_upload_form_submit(array $form, array &$form_state)
   $ds->setContentFromFile($pdf_path, FALSE);
   $ds->label = $pdf_file->filename;
   $ds->mimetype = $pdf_file->filemime;
+  
+  // CSS Styles Object 
+  
+  if (empty($object['STYLES'])) {
+    $my_ds = $object->constructDatastream('STYLES', 'M');
+    $object->ingestDatastream($my_ds);
+  }
+  else {
+    $my_ds = $object['STYLES'];
+  }
+  $pdf_file = file_load($form_state['values']['styles']);
+  $pdf_path = drupal_realpath($pdf_file->uri);
+  $my_ds->setContentFromFile($pdf_path, FALSE);
+  $my_ds->label = $pdf_file->filename;
+  $my_ds->mimetype = $pdf_file->filemime;  
+  
+  $object->ingestDatastream($my_ds); 
+  
+    
+  // First page image Object 
+
+  if (empty($object['IMAGE1'])) {
+    $my_ds = $object->constructDatastream('IMAGE1', 'M');
+    $object->ingestDatastream($my_ds);
+  }
+  else {
+    $my_ds = $object['STYLES'];
+  }
+  $pdf_file = file_load($form_state['values']['pages']);
+  $pdf_path = drupal_realpath($pdf_file->uri);
+  $my_ds->setContentFromFile($pdf_path, FALSE);
+  $my_ds->label = $pdf_file->filename;
+  $my_ds->mimetype = $pdf_file->filemime;  
+  
+  $object->ingestDatastream($my_ds); 
+
 
 }

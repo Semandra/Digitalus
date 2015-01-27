@@ -244,15 +244,17 @@ function OnPageChange(prevPage, newPage, zoomData)
 
     $ = jQuery;
 
-    $("#yourImageID").smoothZoom("destroy").css("background-image", "url(../../sites/digitalpage.ca/modules/islandora_digitalus-7.x-1.0/jquery/css/zoom_assets/preloader.gif)").smoothZoom({  //customized by Semandra - see Read-Me notes
+    $("#yourImageID").smoothZoom("destroy").css("background-image", "url(../../sites/digitalpage.ca/modules/islandora_digitalus_new-7.x-1.4/jquery/zoom_assets/preloader.gif)").smoothZoom({  //customized by Semandra - see Read-Me notes
         width: "100%",
         height: "100%",
         responsive: true,
         animation_SPEED_ZOOM: 0.5,
         on_ZOOM_PAN_UPDATE: updatePolygonTransform,
         on_INIT_DONE: zoomData,
-        image_url: "images/image" + newPage + ".jpg"
+        //image_url: "images/image" + newPage + ".jpg"
+		 image_url: imagePagePath + "IMAGE" + newPage + "/view" //SEMANDRA - uses global set by object inline (islandora-digitalus.tpl.php)
     });
+		
     
     showPolyPage(prevPage, false);
     showPolyPage(newPage, true);

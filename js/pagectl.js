@@ -15,7 +15,7 @@ function PageCtl(elem, maxPage, onpagechange)
     
     $(elem)
         .addClass("noSel")
-        .css({ width: "135px", height: "26px", zIndex: 20 });
+        .css({ width: "157px", height: "26px", zIndex: 20 });
         
     $("<div></div>")
         .addClass("noSel controlsBg")
@@ -23,9 +23,9 @@ function PageCtl(elem, maxPage, onpagechange)
             
     this.prevButton = CreateButton(elem, "idPrev", 4, 4, "-117px"); 
     CreateLabel(elem, "idPageLabel", 26, 4, 20, 18, "Page");
-    this.pageEdit = CreateEdit(elem, "idPageCtl", 54, 4, 20, 18); // Customized by Semandra - see Read-Me notes
-    this.nextButton = CreateButton(elem, "idNext", 114, 4, "-167px");
-    CreateLabel(elem, "idPageLast", 80, 4, 30, 18, "of " + this.maxPage);
+    this.pageEdit = CreateEdit(elem, "idPageCtl", 58, 4, 30, 18); // Customized by Semandra - see Read-Me notes
+    this.nextButton = CreateButton(elem, "idNext", 134, 4, "-167px");
+    CreateLabel(elem, "idPageLast", 93, 4, 45, 18, "of " + this.maxPage);
     
     this.SetPage(1);
 
@@ -126,7 +126,7 @@ function CreateButton(parent, id, left, top, icon)
 
     var buttonIcon = $("<div></div>", { id: id })
         .css({
-            background: "url('../../sites/digitalpage.ca/modules/islandora_digitalus-7.x-1.0/jquery/css/zoom_assets/icons.png') no-repeat " + icon + " -17px", // customized by Semandrda - see Read-me notes
+            background: "url('../../sites/digitalpage.ca/modules/islandora_digitalus-7.x-1.4/jquery/zoom_assets/icons.png') no-repeat " + icon + " -17px", // customized by Semandrda - see Read-me notes
             left: "1px",
             top: "1px",
             width: "16px",
