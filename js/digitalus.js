@@ -13,40 +13,20 @@ jQuery(document).ready(function(pageCtl) {
 		jQuery( ".toolOverlay" ).css( "visibility", "hidden" );
 	  });
 	  
-  // Reload window (to reset overlay markup) - Semandra
+  // Reload window (to reset overlay markup)
 	  
 	  window.addEventListener("resize", pageResetOnResize);
 		 
 		console.log ( "Current Page " + myCurrentPage);
 		function pageResetOnResize(zoomData) {
-			  // remove old control
 			  
-			 console.log(document.pageCtl);
-			  
-			  
-			  
-			 // jQuery("#MyPageCtl").empty();
-			  // reload and recalculate the page display // should use the current page not reset it to first page
-			//  document.pageCtl = jQuery("#MyPageCtl").PageCtl(numberOfPages, OnPageChange);
-			//pageCtl.prototype.SetPage(document.pageCtl.curPage);
-			/*jQuery("#MyPageCtl").change(function() {
-				console.log("change function has been fired");
-				
-					}
-				);*/
-				
 				currentPage = document.pageCtl.curPage; // get the current page number
 				lastPage = document.pageCtl.maxPage; // get the total number of pages
 				
-				
-				
 				if (currentPage == lastPage) { 
 					clearPage = currentPage - 1;
-					console.log("this is the last page");
-					console.log("clearPage " + clearPage);
 					} else {
 						clearPage = currentPage + 1
-						console.log("clearPage " + clearPage);
 						};
 				
 				document.pageCtl.SetPage(clearPage); // sets to a different page -- this triggers the refresh to realign page to size
